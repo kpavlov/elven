@@ -4,16 +4,16 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Texture
 
 private val controls = Controls(
-    keyUp = Keys.UP,
-    keyLeft = Keys.LEFT,
-    keyRight = Keys.RIGHT,
-    keyDown = Keys.DOWN,
-    keyRun = Keys.SHIFT_RIGHT,
+    keyUp = Keys.W,
+    keyLeft = Keys.A,
+    keyRight = Keys.D,
+    keyDown = Keys.S,
+    keyRun = Keys.SHIFT_LEFT,
 )
 
-class Elf: PlayerCharacter(
-    name = "Eldrin",
-    texture = Texture("characters/elf.png"),
+class Dwarf: PlayerCharacter(
+    name = "Dawlin",
+    texture = Texture("characters/dwarf.png"),
     speed = .01f,
     width = 0.7f,
     height = 0.7f,

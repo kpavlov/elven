@@ -10,7 +10,7 @@ A magical, ancient world of towering forests, mystical ruins, and dangerous crea
 
 For centuries, the Elves have guarded the sacred forests of Lumenor, a land filled with magic and wonder. However, a growing shadow has emerged from the distant mountains, spreading fear and corruption. A wise and powerful Wizard, known only as The Grey Sage, has sent word to the Elves, asking for aid in a great battle against this darkness.
 
-You, Eldrin, a young but skilled Elf warrior, are chosen by your people to find and aid the Grey Sage in his battle against the rising evil.
+You, **Eldrin**, a young but skilled Elf warrior, are chosen by your people to find and aid the **Grey Sage** in his battle against the rising evil.
 
 ## Story Structure:
 
