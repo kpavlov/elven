@@ -3,7 +3,10 @@ package me.kpavlov.elven.characters
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
 
-
+/**
+ * Player Characters (PCs) – These are the characters controlled by the player (the user).
+ * The player makes decisions for the character, such as actions, movement, and dialogue choices.
+ */
 @Suppress("LongParameterList")
 abstract class PlayerCharacter(
     name: String,
@@ -26,7 +29,6 @@ abstract class PlayerCharacter(
     run = run
 ) {
 
-
     fun reactOnControls(input: Input) {
         val elf = this
         elf.run = input.isKeyPressed(controls.keyRun)
@@ -43,6 +45,10 @@ abstract class PlayerCharacter(
         }
         if (input.isKeyPressed(controls.keyDown)) {
             elf.moveSouth();
+        }
+
+        if (input.isTouched) { // If the user has clicked or tapped the screen
+            logger.info("Don't touch me!")
         }
     }
 }

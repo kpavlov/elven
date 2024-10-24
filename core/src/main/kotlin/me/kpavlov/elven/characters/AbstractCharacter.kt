@@ -3,7 +3,10 @@ package me.kpavlov.elven.characters
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.utils.Logger
+import com.sun.org.slf4j.internal.LoggerFactory
 
+@Suppress("LongParameterList")
 abstract class AbstractCharacter(
     val name: String,
     val texture: Texture,
@@ -14,6 +17,8 @@ abstract class AbstractCharacter(
     var speed: Float = .05f,
     var run: Boolean = false,
 ) {
+
+    protected val logger = Logger(name)
 
     private val sprite: Sprite = Sprite(texture)
 

@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
-import me.kpavlov.elven.characters.Dwarf
-import me.kpavlov.elven.characters.Elf
+import me.kpavlov.elven.characters.*
+import java.util.concurrent.ConcurrentLinkedDeque
+import java.util.concurrent.ConcurrentLinkedQueue
 
 private val tileWidth = 7f // The width of one tile
 private val tileHeight = 7f // The height of one tile
@@ -24,14 +25,26 @@ class Main : ApplicationAdapter() {
     private lateinit var tileTexture: Texture
     private lateinit var elf: Elf
     private lateinit var dwarf: Dwarf
+    private lateinit var orc: Orc
     private lateinit var viewport: FitViewport
+
+    private val allCharacters = ConcurrentLinkedQueue<AbstractCharacter>();
+    private val playerCharacters = ConcurrentLinkedQueue<PlayerCharacter>();
 
     override fun create() {
         batch = SpriteBatch()
         tileTexture = Texture("terrains/forest.png")
         elf = Elf()
         dwarf = Dwarf()
+        orc = Orc()
+
+        allCharacters.add(orc)
+
+        playerCharacters.add(dwarf)
+        playerCharacters.add(elf)
+
         viewport = FitViewport(8f, 5f)
+        orc.moveTo(1,3)
         elf.moveTo(3,2.6)
         dwarf.moveTo(2,2.6)
     }
@@ -58,11 +71,13 @@ class Main : ApplicationAdapter() {
 
         elf.run = input.isKeyPressed(Keys.SHIFT_LEFT)
 
-        elf.reactOnControls(input)
-        dwarf.reactOnControls(input)
+        playerCharacters.forEach{
+            it.reactOnControls(input)
+        }
     }
 
     private fun logic() {
+
     }
 
     private fun draw() {
@@ -85,8 +100,15 @@ class Main : ApplicationAdapter() {
             }
         }
 
-        elf.render(batch)
-        dwarf.render(batch)
+        allCharacters.forEach {
+            it.render(batch)
+        }
+
+        playerCharacters.forEach {
+            it.render(batch)
+        }
+//        elf.render(batch)
+//        dwarf.render(batch)
 
         batch.end();
     }
