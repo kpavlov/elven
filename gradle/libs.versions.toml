@@ -5,7 +5,7 @@ kotlin = "2.0.21"
 kotlinx = "1.9.0"
 kotlinxDatetime = "0.6.1"
 ktor = "2.3.12"
-ktx = "1.12.1-rc2"
+ktx = "1.12.1-SNAPSHOT"
 slf4j = "2.0.16"
 
 [libraries]
