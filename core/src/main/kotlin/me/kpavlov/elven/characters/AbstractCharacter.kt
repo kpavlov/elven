@@ -3,44 +3,51 @@ package me.kpavlov.elven.characters
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.utils.Logger
-import com.sun.org.slf4j.internal.LoggerFactory
 
 @Suppress("LongParameterList")
 abstract class AbstractCharacter(
-    val name: String,
+    name: String,
     val texture: Texture,
     x: Float = 0f,
     y: Float = 0f,
-    private var width: Float = 1f,
-    private var height: Float = 1f,
+    width: Float = 1f,
+    height: Float = 1f,
     var speed: Float = .05f,
     var run: Boolean = false,
-) {
-
+) : Actor() {
     protected val logger = Logger(name)
 
-    private val sprite: Sprite = Sprite(texture)
-
-    private fun actualSpeed() = if (this.run) {
-        speed * 2
-    } else {
-        speed
-    }
+    val sprite: Sprite = Sprite(texture)
 
     init {
-        sprite.setSize(width, height);
+        this.name = name
+    }
+
+    private fun actualSpeed() =
+        if (this.run) {
+            speed * 2
+        } else {
+            speed
+        }
+
+    init {
+        sprite.setSize(width, height)
         sprite.x = x
         sprite.y = y
     }
 
     fun render(spriteBatch: SpriteBatch) {
-        sprite.draw(spriteBatch);
+        sprite.draw(spriteBatch)
 //        spriteBatch.draw(texture, x, y, 1f, 1f)
     }
 
-    fun moveTo(x: Number, y: Number) {
-        sprite.setPosition(x.toFloat(),y.toFloat())
+    fun moveTo(
+        x: Number,
+        y: Number,
+    ) {
+        sprite.setPosition(x.toFloat(), y.toFloat())
     }
 
     fun moveWest() {

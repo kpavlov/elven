@@ -1,23 +1,14 @@
 package me.kpavlov.elven.characters
 
-import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Texture
+import me.kpavlov.elven.arrowControls
 
-private val controls = Controls(
-    keyUp = Keys.UP,
-    keyLeft = Keys.LEFT,
-    keyRight = Keys.RIGHT,
-    keyDown = Keys.DOWN,
-    keyRun = Keys.SHIFT_RIGHT,
-)
-
-class Elf: PlayerCharacter(
-    name = "Eldrin",
-    texture = Texture("characters/elf.png"),
-    speed = .01f,
-    width = 0.7f,
-    height = 0.7f,
-    controls = controls
-) {
-
-}
+class Elf :
+    PlayerCharacter(
+        name = "Eldrin",
+        texture = Texture("characters/elf.png"),
+        speed = .01f,
+        width = 0.7f,
+        height = 0.7f,
+        controls = arrowControls,
+    )
