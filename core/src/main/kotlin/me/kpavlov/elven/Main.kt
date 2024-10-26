@@ -5,11 +5,12 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
 import me.kpavlov.elven.characters.*
-import java.util.concurrent.ConcurrentLinkedDeque
 import java.util.concurrent.ConcurrentLinkedQueue
+
 
 private val tileWidth = 7f // The width of one tile
 private val tileHeight = 7f // The height of one tile
@@ -27,6 +28,7 @@ class Main : ApplicationAdapter() {
     private lateinit var dwarf: Dwarf
     private lateinit var orc: Orc
     private lateinit var viewport: FitViewport
+    private lateinit var touchPos: Vector2
 
     private val allCharacters = ConcurrentLinkedQueue<AbstractCharacter>();
     private val playerCharacters = ConcurrentLinkedQueue<PlayerCharacter>();
@@ -44,6 +46,8 @@ class Main : ApplicationAdapter() {
         playerCharacters.add(elf)
 
         viewport = FitViewport(8f, 5f)
+        touchPos = Vector2()
+
         orc.moveTo(1,3)
         elf.moveTo(3,2.6)
         dwarf.moveTo(2,2.6)
@@ -73,6 +77,14 @@ class Main : ApplicationAdapter() {
 
         playerCharacters.forEach{
             it.reactOnControls(input)
+        }
+
+        if (Gdx.input.isTouched()) {
+            // https://libgdx.com/wiki/start/a-simple-game#input-controls
+            touchPos.set(Gdx.input.getX().toFloat(), Gdx.input.getY().toFloat()); // Get where the touch happened on screen
+            viewport.unproject(touchPos); // Convert the units to the world units of the viewport
+            println("TouchPos: $touchPos")
+            //bucketSprite.setCenterX(touchPos.x); // Change the horizontally centered position of the bucket
         }
     }
 
@@ -113,6 +125,9 @@ class Main : ApplicationAdapter() {
         batch.end();
     }
 
+
+    override fun pause() {
+    }
 
     override fun dispose() {
         batch.dispose()
