@@ -1,6 +1,7 @@
 package me.kpavlov.elven
 
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.graphics.Camera
 import me.kpavlov.elven.characters.AbstractCharacter
 
@@ -9,14 +10,14 @@ class CameraController(
     val input: Input,
     val controls: Controls = arrowControls,
     var actor: AbstractCharacter? = null,
-) {
+) : InputAdapter() {
     fun reactOnControls() {
         if (actor != null) {
-            camera.position.x = actor!!.sprite.x
+            camera.position.x = actor!!.x
         } else {
             var dX = 0f
             var dY = 0f
-            var speed = 1.5f
+            var speed = 0.7f
             if (input.isKeyPressed(controls.keyRun)) {
                 speed *= 2
             }

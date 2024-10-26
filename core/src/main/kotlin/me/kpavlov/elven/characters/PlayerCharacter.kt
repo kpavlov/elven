@@ -2,6 +2,8 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
 import me.kpavlov.elven.Controls
 
 /**
@@ -14,9 +16,9 @@ abstract class PlayerCharacter(
     texture: Texture,
     x: Float = 0f,
     y: Float = 0f,
-    width: Float = 1f,
-    height: Float = 1f,
-    speed: Float = .05f,
+    width: Int,
+    height: Int,
+    speed: Number = 10,
     run: Boolean = false,
     val controls: Controls,
 ) : AbstractCharacter(
@@ -29,6 +31,10 @@ abstract class PlayerCharacter(
         speed = speed,
         run = run,
     ) {
+    init {
+        addListener(PlayerInputListener())
+    }
+
     fun reactOnControls(input: Input) {
         val elf = this
         elf.run = input.isKeyPressed(controls.keyRun)
@@ -46,9 +52,19 @@ abstract class PlayerCharacter(
         if (input.isKeyPressed(controls.keyDown)) {
             elf.moveSouth()
         }
+    }
 
-        if (input.isTouched) { // If the user has clicked or tapped the screen
-            logger.info { "Don't touch me!" }
+    private inner class PlayerInputListener : InputListener() {
+        override fun touchDown(
+            event: InputEvent,
+            x: Float,
+            y: Float,
+            pointer: Int,
+            button: Int,
+        ): Boolean {
+            logger.info { "down: $x;$y $pointer $button" }
+
+            return false
         }
     }
 }

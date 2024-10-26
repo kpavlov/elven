@@ -7,8 +7,8 @@ class Elf :
     PlayerCharacter(
         name = "Eldrin",
         texture = Texture("characters/elf.png"),
-        speed = .01f,
-        width = 0.7f,
-        height = 0.7f,
+        speed = 1,
+        width = 64,
+        height = 64,
         controls = arrowControls,
     )

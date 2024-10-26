@@ -1,9 +1,12 @@
 package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Sprite
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import ktx.log.Logger
 
 @Suppress("LongParameterList")
@@ -12,61 +15,83 @@ abstract class AbstractCharacter(
     val texture: Texture,
     x: Float = 0f,
     y: Float = 0f,
-    width: Float = 1f,
-    height: Float = 1f,
-    var speed: Float = .05f,
+    width: Int = 64,
+    height: Int = 64,
+    var speed: Number = 10,
     var run: Boolean = false,
 ) : Actor() {
     protected val logger = Logger(name)
 
-    val sprite: Sprite = Sprite(texture)
+    private val region = TextureRegion(texture)
 
     init {
         this.name = name
+
+        setSize(width.toFloat(), height.toFloat())
+        isVisible = true
+        setColor(0.7f, .6f, .3f, 1f)
+        setPosition(x, y)
+
+        addListener(
+            object : InputListener() {
+                override fun touchDown(
+                    event: InputEvent?,
+                    x: Float,
+                    y: Float,
+                    pointer: Int,
+                    button: Int,
+                ): Boolean {
+                    sayHey()
+                    return true
+                }
+            },
+        )
     }
 
-    private fun actualSpeed() =
+    private fun actualSpeed(): Float =
         if (this.run) {
-            speed * 2
+            speed.toFloat() * 2
         } else {
-            speed
+            speed.toFloat()
         }
 
-    init {
-        sprite.setSize(width, height)
-        sprite.x = x
-        sprite.y = y
-    }
-
-    fun render(spriteBatch: SpriteBatch) {
-        sprite.draw(spriteBatch)
-//        spriteBatch.draw(texture, x, y, 1f, 1f)
+    override fun draw(
+        batch: Batch,
+        parentAlpha: Float,
+    ) {
+        val color = color
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha)
+        batch.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation)
     }
 
     fun moveTo(
         x: Number,
         y: Number,
     ) {
-        sprite.setPosition(x.toFloat(), y.toFloat())
+        addAction(Actions.moveTo(x.toFloat(), y.toFloat()))
     }
 
     fun moveWest() {
-        sprite.translateX(-actualSpeed())
+        addAction(Actions.moveBy(-actualSpeed(), 0f, .5f))
     }
 
     fun moveEast() {
-        sprite.translateX(+actualSpeed())
+        addAction(Actions.moveBy(actualSpeed(), 0f, .5f))
     }
 
     fun moveSouth() {
-        sprite.translateY(-actualSpeed())
+        addAction(Actions.moveBy(0f, -actualSpeed(), .5f))
     }
 
     fun moveNorth() {
-        sprite.translateY(+actualSpeed())
+        addAction(Actions.moveBy(0f, actualSpeed(), .5f))
     }
 
     fun dispose() {
         texture.dispose()
+    }
+
+    protected fun sayHey() {
+        logger.info { "Hey!" }
     }
 }

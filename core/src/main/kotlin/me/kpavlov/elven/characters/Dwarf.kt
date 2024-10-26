@@ -7,8 +7,8 @@ class Dwarf :
     PlayerCharacter(
         name = "Dawlin",
         texture = Texture("characters/dwarf.png"),
-        speed = .01f,
-        width = 0.7f,
-        height = 0.7f,
+        speed = 1,
+        width = 50,
+        height = 50,
         controls = asdwControls,
     )
