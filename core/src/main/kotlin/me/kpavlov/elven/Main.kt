@@ -3,24 +3,23 @@ package me.kpavlov.elven
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import ktx.actors.stage
 import ktx.scene2d.actor
 import ktx.scene2d.actors
-import me.kpavlov.elven.characters.*
-
-private val tileWidth = 7f // The width of one tile
-private val tileHeight = 7f // The height of one tile
+import me.kpavlov.elven.characters.AbstractCharacter
+import me.kpavlov.elven.characters.Dwarf
+import me.kpavlov.elven.characters.Elf
+import me.kpavlov.elven.characters.Orc
+import me.kpavlov.elven.characters.PlayerCharacter
 
 private val input = Gdx.input
 
@@ -64,8 +63,6 @@ class Main : ApplicationAdapter() {
         positionCameraAtMapCenter(camera, map)
 
         elf = Elf()
-        elf.zIndex = 10
-        elf.setPosition(Gdx.graphics.width.toFloat() / 2 - 1, Gdx.graphics.height.toFloat() / 2 - 1)
         dwarf = Dwarf()
         orc = Orc()
 
@@ -80,14 +77,6 @@ class Main : ApplicationAdapter() {
         orc.moveTo(Gdx.graphics.width.toFloat() / 2, Gdx.graphics.height.toFloat() / 2)
         elf.moveTo(300, 200)
         dwarf.moveTo(30, 150)
-
-        // Add UI elements to the stage (optional)
-        val image = Image(Texture("terrains/forest.png"))
-        image.setPosition(100f, 100f) // Positioning the image
-        image.width = 100f
-        image.height = 100f
-
-        stage.addActor(image)
 
         stage.actors {
             actor(orc) {

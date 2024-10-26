@@ -10,6 +10,8 @@ insert_final_newline = true
 
 [*.{java,scala,groovy,kt,kts}]
 indent_size = 4
+ij_kotlin_name_count_to_use_star_import = 999
+ij_kotlin_name_count_to_use_star_import_for_members = 999
 
 [*.gradle]
 indent_size = 2
