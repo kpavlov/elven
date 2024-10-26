@@ -39,11 +39,16 @@ class Main : ApplicationAdapter() {
     private lateinit var cameraController: CameraController
     private lateinit var mapRenderer: IsometricTiledMapRenderer
     private lateinit var stage: Stage
+    private lateinit var audioController: AudioController
+    private var isPaused = false
 
     private val allCharacters = mutableListOf<AbstractCharacter>()
     private val playerCharacters = mutableListOf<PlayerCharacter>()
 
     override fun create() {
+        audioController = AudioController()
+        audioController.playMusic()
+
         camera = OrthographicCamera()
         camera.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
 
@@ -99,6 +104,7 @@ class Main : ApplicationAdapter() {
     }
 
     override fun render() {
+        if (isPaused) return
         // organize code into three methods
         input()
         logic()
@@ -133,6 +139,13 @@ class Main : ApplicationAdapter() {
     }
 
     override fun pause() {
+        isPaused = true
+        audioController.stopMusic()
+    }
+
+    override fun resume() {
+        isPaused = false
+        audioController.playMusic()
     }
 
     override fun dispose() {
@@ -140,6 +153,7 @@ class Main : ApplicationAdapter() {
         map.dispose()
         mapRenderer.dispose()
         stage.dispose()
+        audioController.dispose()
     }
 
     fun positionCameraAtMapCenter(
