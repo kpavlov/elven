@@ -1,5 +1,7 @@
 #  Elven Quest: The Mage’s Call
 
+[![Java CI with Gradle](https://github.com/kpavlov/elven/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/kpavlov/elven/actions/workflows/gradle.yml)
+
 ## Setting:
 
 A magical, ancient world of towering forests, mystical ruins, and dangerous creatures. The game follows an Elf who embarks on a quest to help a legendary wizard in a great battle against a looming evil force.
