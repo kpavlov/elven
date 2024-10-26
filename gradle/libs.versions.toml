@@ -31,6 +31,7 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktx-actors = { module = "io.github.libktx:ktx-actors", version.ref = "ktx" }
 ktx-app = { module = "io.github.libktx:ktx-app", version.ref = "ktx" }
+ktx-log = { module = "io.github.libktx:ktx-log", version.ref = "ktx" }
 ktx-scene2d = { module = "io.github.libktx:ktx-scene2d", version.ref = "ktx" }
 ktx-ai = { module = "io.github.libktx:ktx-ai", version.ref = "ktx" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }

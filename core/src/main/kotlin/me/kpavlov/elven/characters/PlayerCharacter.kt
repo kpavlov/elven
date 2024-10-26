@@ -27,8 +27,8 @@ abstract class PlayerCharacter(
         width = width,
         height = height,
         speed = speed,
-    run = run,
-) {
+        run = run,
+    ) {
     fun reactOnControls(input: Input) {
         val elf = this
         elf.run = input.isKeyPressed(controls.keyRun)
@@ -48,7 +48,7 @@ abstract class PlayerCharacter(
         }
 
         if (input.isTouched) { // If the user has clicked or tapped the screen
-            logger.info("Don't touch me!")
+            logger.info { "Don't touch me!" }
         }
     }
 }
