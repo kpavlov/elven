@@ -22,7 +22,7 @@ abstract class AbstractCharacter(
 ) : Actor() {
     protected val logger = Logger(name)
 
-    private val region = TextureRegion(texture)
+    protected val region = TextureRegion(texture)
 
     init {
         this.name = name

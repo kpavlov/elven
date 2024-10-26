@@ -9,6 +9,9 @@ dependencies {
     api(libs.ktx.actors)
     api(libs.ktx.scene2d)
     api(libs.kotlin.stdlib)
+    api(libs.langchain4j)
+    api(libs.langchain4j.openai)
+    api(libs.kotlinx.coroutines.core)
 
     if (enableGraalNative == "true") {
         implementation(libs.gdx.svmhelper.annotations)

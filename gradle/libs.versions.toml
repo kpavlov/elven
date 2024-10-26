@@ -6,6 +6,7 @@ kotlinx = "1.9.0"
 kotlinxDatetime = "0.6.1"
 ktor = "3.0.0"
 ktx = "1.12.1-rc2"
+langchain4j = "0.35.0"
 slf4j = "2.0.16"
 
 [libraries]
@@ -30,12 +31,12 @@ ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = 
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktx-actors = { module = "io.github.libktx:ktx-actors", version.ref = "ktx" }
+ktx-ai = { module = "io.github.libktx:ktx-ai", version.ref = "ktx" }
 ktx-app = { module = "io.github.libktx:ktx-app", version.ref = "ktx" }
 ktx-log = { module = "io.github.libktx:ktx-log", version.ref = "ktx" }
 ktx-scene2d = { module = "io.github.libktx:ktx-scene2d", version.ref = "ktx" }
-ktx-ai = { module = "io.github.libktx:ktx-ai", version.ref = "ktx" }
-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
-slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
+langchain4j-openai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
 
 [plugins]
 construo = { id = "io.github.fourlastor.construo", version = "1.4.3" }

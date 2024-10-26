@@ -23,6 +23,8 @@ import me.kpavlov.elven.characters.PlayerCharacter
 
 private val input = Gdx.input
 
+private const val DEBUG = false
+
 /**
  * [com.badlogic.gdx.ApplicationListener] implementation shared by all
  * platforms.
@@ -58,7 +60,7 @@ class Main : ApplicationAdapter() {
         // Set up the Stage and UI
         stage = stage(viewport = ScreenViewport(camera))
         Gdx.input.inputProcessor = stage // Make the stage receive input
-        stage.isDebugAll = true
+        stage.isDebugAll = DEBUG
 
         batch = stage.batch
         viewport = stage.viewport
@@ -120,7 +122,11 @@ class Main : ApplicationAdapter() {
     }
 
     private fun logic() {
-        // to implement
+        playerCharacters.forEach { player ->
+            allCharacters.forEach { other ->
+                player.checkHit(other)
+            }
+        }
     }
 
     private fun draw() {
