@@ -5,6 +5,8 @@ dependencies {
 
     api(libs.gdx)
     api(libs.ktx.app)
+    api(libs.ktx.actors)
+    api(libs.ktx.scene2d)
     api(libs.kotlin.stdlib)
 
     if (enableGraalNative == "true") {
