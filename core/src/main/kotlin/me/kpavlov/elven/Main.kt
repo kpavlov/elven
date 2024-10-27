@@ -83,9 +83,9 @@ class Main : ApplicationAdapter() {
 
 //        cameraController.actor = elf
 
-        orc.moveTo(Gdx.graphics.width.toFloat() / 2, Gdx.graphics.height.toFloat() / 2)
-        elf.moveTo(300, 200)
-        dwarf.moveTo(30, 150)
+        orc.setPosition(Gdx.graphics.width.toFloat() / 2, Gdx.graphics.height.toFloat() / 2)
+        elf.setPosition(300f, 200f)
+        dwarf.setPosition(30f, 150f)
 
         stage.actors {
             actor(orc) {

@@ -38,7 +38,7 @@ abstract class AiCharacter(
                 from?.let {
                     ChatController.say(it, question)
                 }
-                val answer = aiStrategy.ask(question)
+                val answer = aiStrategy.reply(question)
                 ChatController.say(this@AiCharacter, answer)
                 logger.info {
                     answer

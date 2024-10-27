@@ -15,12 +15,12 @@ class AiStrategy(
         systemPrompt = file.readString()
     }
 
-    fun ask(question: String): String {
+    fun reply(question: String): String {
         val result =
             model.generate(
                 listOf(
                     SystemMessage.systemMessage(systemPrompt),
-                    UserMessage.from("Answer this question: ```$question```"),
+                    UserMessage.from("Reply to:```$question```. Never stop on unfinished sentence"),
                 ),
             )
         return result.content().text()
