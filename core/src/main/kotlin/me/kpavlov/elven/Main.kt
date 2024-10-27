@@ -81,11 +81,15 @@ class Main : ApplicationAdapter() {
 
         touchPos = Vector2()
 
-//        cameraController.actor = elf
+        cameraController.actor = elf
 
-        orc.setPosition(Gdx.graphics.width.toFloat() / 2, Gdx.graphics.height.toFloat() / 2)
-        elf.setPosition(300f, 200f)
-        dwarf.setPosition(30f, 150f)
+        elf.setPosition(200f, 10f)
+        dwarf.setPosition(1000f, -80f)
+
+//        val vector2 = Vector2(stage.width / 2f, stage.height / 2f)
+//        val orcScr = stage.stageToScreenCoordinates(vector2)
+        orc.setPosition(900f, 300f)
+//        orc.setPosition(Gdx.graphics.width.toFloat() / 2, Gdx.graphics.height.toFloat() / 2)
 
         stage.actors {
             actor(orc) {
@@ -174,8 +178,8 @@ class Main : ApplicationAdapter() {
         val mapHeightInTiles = map.properties.get("height", Int::class.java)
 
         // Calculate map center in world coordinates for an isometric map
-        val mapCenterX = (mapWidthInTiles + mapHeightInTiles) * (tileWidth / 2) / 2
-        val mapCenterY = (mapHeightInTiles - mapWidthInTiles) * (tileHeight / 2) / 2
+        val mapCenterX = (mapWidthInTiles + mapHeightInTiles) * (tileWidth / 2f) / 2f
+        val mapCenterY = (mapHeightInTiles - mapWidthInTiles) * (tileHeight / 2f) / 2f
 
         // Set camera position to map center
         camera.position.set(mapCenterX, mapCenterY, 0f)

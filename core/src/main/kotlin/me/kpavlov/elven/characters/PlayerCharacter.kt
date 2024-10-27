@@ -2,11 +2,13 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import me.kpavlov.elven.Controls
 import kotlin.math.abs
 import kotlin.math.max
@@ -42,7 +44,17 @@ abstract class PlayerCharacter(
 
     init {
         addListener(PlayerInputListener())
-        addListener(HitListener())
+//        addListener(HitListener())
+//        addListener(
+//            object : ChangeListener() {
+//                override fun changed(
+//                    event: ChangeEvent,
+//                    actor: Actor,
+//                ) {
+//                    // TODO("Not yet implemented")
+//                }
+//            },
+//        )
     }
 
     fun reactOnControls(input: Input) {
@@ -51,16 +63,20 @@ abstract class PlayerCharacter(
 
         if (input.isKeyPressed(controls.keyRight)) {
             elf.moveEast()
+            lookAtMe()
         }
 
         if (input.isKeyPressed(controls.keyLeft)) {
             elf.moveWest()
+            lookAtMe()
         }
         if (input.isKeyPressed(controls.keyUp)) {
             elf.moveNorth()
+            lookAtMe()
         }
         if (input.isKeyPressed(controls.keyDown)) {
             elf.moveSouth()
+            lookAtMe()
         }
     }
 
@@ -91,7 +107,17 @@ abstract class PlayerCharacter(
         }
     }
 
-    private inner class PlayerInputListener : InputListener() {
+    private fun lookAtMe() {
+        val local3 = Vector3(x, y, 0f)
+        val local2 = Vector2(x, y)
+        val screen2 = localToScreenCoordinates(local2)
+        val screen3 = Vector3(screen2.x, screen2.y, 0f)
+//        lookAt(stage.stageToScreenCoordinates(Vector2(x, y)))
+//        logger.info { "Look at $screen3" }
+//        stage.camera.lookAt(screen3)
+    }
+
+    private inner class PlayerInputListener : ClickListener() {
         override fun touchDown(
             event: InputEvent,
             x: Float,

@@ -14,10 +14,11 @@ class CameraController(
     fun reactOnControls() {
         if (actor != null) {
             camera.position.x = actor!!.x
+            camera.position.y = actor!!.y
         } else {
             var dX = 0f
             var dY = 0f
-            var speed = 0.7f
+            var speed = 1f
             if (input.isKeyPressed(controls.keyRun)) {
                 speed *= 2
             }
