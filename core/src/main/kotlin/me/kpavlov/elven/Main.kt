@@ -30,7 +30,6 @@ private const val DEBUG = false
  * platforms.
  */
 class Main : ApplicationAdapter() {
-    private lateinit var chatController: ChatController
     private lateinit var batch: Batch
     private lateinit var elf: Elf
     private lateinit var dwarf: Dwarf
@@ -68,6 +67,7 @@ class Main : ApplicationAdapter() {
 
         cameraController = CameraController(camera, input)
         ChatController.attachToStage(stage)
+        ChatWindow.attachToStage(stage)
 
         positionCameraAtMapCenter(camera, map)
 
@@ -87,11 +87,6 @@ class Main : ApplicationAdapter() {
         dwarf.setPosition(1000f, -80f)
 //        orc.setPosition(900f, 300f)
         orc.setPosition(300f, 10f)
-
-//        val vector2 = Vector2(stage.width / 2f, stage.height / 2f)
-//        val orcScr = stage.stageToScreenCoordinates(vector2)
-
-//        orc.setPosition(Gdx.graphics.width.toFloat() / 2, Gdx.graphics.height.toFloat() / 2)
 
         stage.actors {
             actor(orc) {

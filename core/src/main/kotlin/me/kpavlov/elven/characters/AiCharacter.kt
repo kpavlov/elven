@@ -5,9 +5,7 @@ import com.badlogic.gdx.audio.Sound
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import me.kpavlov.elven.ChatController
 import me.kpavlov.elven.ai.AiStrategy
 
 @Suppress("LongParameterList")
@@ -39,18 +37,11 @@ abstract class AiCharacter(
     fun ask(
         question: String,
         from: PlayerCharacter,
+        callback: (String) -> Unit,
     ) {
-        from.let {
-            ChatController.say(it, question)
-        }
         GlobalScope.launch(Dispatchers.IO) {
-            async {
-                val answer = aiStrategy.reply(question)
-                ChatController.say(this@AiCharacter, answer)
-                logger.info {
-                    answer
-                }
-            }
+            val answer = aiStrategy.reply(question)
+            callback(answer)
         }
     }
 

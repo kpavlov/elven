@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import me.kpavlov.elven.ChatWindow
 import me.kpavlov.elven.Controls
 import kotlin.math.abs
 import kotlin.math.max
@@ -104,16 +105,17 @@ abstract class PlayerCharacter(
         }
     }
 
-    protected fun onMeetAiCharacter(other: AiCharacter) {
+    private fun onMeetAiCharacter(other: AiCharacter) {
+        ChatWindow.startDialog(this, other)
         val question = "Hello, my name is $name. How are you doing?"
-        logger.info { question }
+        ChatWindow.say(this, question)
         other.onMeetPlayer(this)
-        other.ask(from = this, question = question)
+        // other.ask(from = this, question = question)
     }
 
-    protected fun onLeaveAiCharacter(other: AiCharacter) {
+    private fun onLeaveAiCharacter(other: AiCharacter) {
         val bye = "Bye, ${other.name}"
-        other.ask(from = this, question = bye)
+        // other.ask(from = this, question = bye)
     }
 
     private fun lookAtMe() {
