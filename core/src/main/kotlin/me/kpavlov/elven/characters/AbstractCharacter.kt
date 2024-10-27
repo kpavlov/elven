@@ -13,7 +13,7 @@ import me.kpavlov.elven.ChatController
 @Suppress("LongParameterList")
 abstract class AbstractCharacter(
     name: String,
-    val texture: Texture,
+    folderName: String,
     x: Float = 0f,
     y: Float = 0f,
     width: Int = 64,
@@ -23,7 +23,8 @@ abstract class AbstractCharacter(
 ) : Actor() {
     protected val logger = Logger(name)
 
-    protected val region = TextureRegion(texture)
+    private val texture = Texture("characters/$folderName/texture.png")
+    private val region = TextureRegion(texture)
 
     init {
         this.name = name
@@ -88,7 +89,7 @@ abstract class AbstractCharacter(
         addAction(Actions.moveBy(0f, actualSpeed(), .5f))
     }
 
-    fun dispose() {
+    open fun dispose() {
         texture.dispose()
     }
 

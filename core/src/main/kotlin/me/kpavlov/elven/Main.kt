@@ -49,7 +49,7 @@ class Main : ApplicationAdapter() {
     private val playerCharacters = mutableListOf<PlayerCharacter>()
 
     override fun create() {
-        audioController = AudioController()
+        audioController = AudioController
         audioController.playMusic()
 
         camera = OrthographicCamera()
@@ -85,10 +85,12 @@ class Main : ApplicationAdapter() {
 
         elf.setPosition(200f, 10f)
         dwarf.setPosition(1000f, -80f)
+//        orc.setPosition(900f, 300f)
+        orc.setPosition(300f, 10f)
 
 //        val vector2 = Vector2(stage.width / 2f, stage.height / 2f)
 //        val orcScr = stage.stageToScreenCoordinates(vector2)
-        orc.setPosition(900f, 300f)
+
 //        orc.setPosition(Gdx.graphics.width.toFloat() / 2, Gdx.graphics.height.toFloat() / 2)
 
         stage.actors {

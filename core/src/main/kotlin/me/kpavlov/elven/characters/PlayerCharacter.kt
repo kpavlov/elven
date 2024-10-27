@@ -1,7 +1,6 @@
 package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -20,7 +19,7 @@ import kotlin.math.max
 @Suppress("LongParameterList")
 abstract class PlayerCharacter(
     name: String,
-    texture: Texture,
+    folderName: String = name,
     x: Float = 0f,
     y: Float = 0f,
     width: Int,
@@ -30,7 +29,7 @@ abstract class PlayerCharacter(
     val controls: Controls,
 ) : AbstractCharacter(
         name = name,
-        texture = texture,
+        folderName = folderName,
         x = x,
         y = y,
         width = width,
@@ -90,7 +89,7 @@ abstract class PlayerCharacter(
             if (abs(this.x - other.x) > collisionDistance ||
                 abs(this.y - other.y) > collisionDistance
             ) {
-                logger.info { "Bye, ${other.name}" }
+                onLeaveAiCharacter(other)
                 meetingWith = null
             }
             return
@@ -101,10 +100,20 @@ abstract class PlayerCharacter(
             abs(this.y - other.y) < collisionDistance
         ) {
             meetingWith = other
-            val question = "Hello, my name is $name. How are you doing?"
-            logger.info { question }
-            other.ask(from = this@PlayerCharacter, question = question) // todo: better comm
+            onMeetAiCharacter(other)
         }
+    }
+
+    protected fun onMeetAiCharacter(other: AiCharacter) {
+        val question = "Hello, my name is $name. How are you doing?"
+        logger.info { question }
+        other.onMeetPlayer(this)
+        other.ask(from = this, question = question)
+    }
+
+    protected fun onLeaveAiCharacter(other: AiCharacter) {
+        val bye = "Bye, ${other.name}"
+        other.ask(from = this, question = bye)
     }
 
     private fun lookAtMe() {
