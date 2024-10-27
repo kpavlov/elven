@@ -30,6 +30,7 @@ private const val DEBUG = false
  * platforms.
  */
 class Main : ApplicationAdapter() {
+    private lateinit var chatController: ChatController
     private lateinit var batch: Batch
     private lateinit var elf: Elf
     private lateinit var dwarf: Dwarf
@@ -66,6 +67,7 @@ class Main : ApplicationAdapter() {
         viewport = stage.viewport
 
         cameraController = CameraController(camera, input)
+        ChatController.attachToStage(stage)
 
         positionCameraAtMapCenter(camera, map)
 

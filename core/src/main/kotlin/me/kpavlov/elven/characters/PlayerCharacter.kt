@@ -11,12 +11,6 @@ import me.kpavlov.elven.Controls
 import kotlin.math.abs
 import kotlin.math.max
 
-private val PlayerCharacter.fl: Float
-    get() {
-        val delta = max(width, height)
-        return delta
-    }
-
 /**
  * Player Characters (PCs) – These are the characters controlled by the player (the user).
  * The player makes decisions for the character, such as actions, movement, and dialogue choices.
@@ -93,7 +87,7 @@ abstract class PlayerCharacter(
             meetingWith = other
             val question = "Hello, my name is $name. How are you doing?"
             logger.info { question }
-            other.ask(question) // todo: better comm
+            other.ask(from = this@PlayerCharacter, question = question) // todo: better comm
         }
     }
 

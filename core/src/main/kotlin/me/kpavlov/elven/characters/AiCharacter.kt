@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import me.kpavlov.elven.ChatController
 import me.kpavlov.elven.ai.AiStrategy
 
 @Suppress("LongParameterList")
@@ -28,10 +29,20 @@ abstract class AiCharacter(
     ) {
     private val aiStrategy = AiStrategy(name)
 
-    fun ask(question: String) {
+    fun ask(
+        question: String,
+        from: PlayerCharacter? = null,
+    ) {
         GlobalScope.launch {
             async {
-                logger.info { aiStrategy.ask(question) }
+                from?.let {
+                    ChatController.say(it, question)
+                }
+                val answer = aiStrategy.ask(question)
+                ChatController.say(this@AiCharacter, answer)
+                logger.info {
+                    answer
+                }
             }
         }
     }

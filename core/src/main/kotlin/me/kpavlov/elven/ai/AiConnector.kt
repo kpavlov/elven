@@ -1,15 +1,15 @@
 package me.kpavlov.elven.ai
 
 import dev.langchain4j.model.chat.ChatLanguageModel
-import dev.langchain4j.model.chat.DisabledChatLanguageModel
 import dev.langchain4j.model.openai.OpenAiChatModel
+import me.kpavlov.langchain4j.MockChatLanguageModel
 
 private const val TEST = true
 
 object AiConnector {
     val model: ChatLanguageModel =
         if (TEST) {
-            DisabledChatLanguageModel()
+            MockChatLanguageModel()
         } else {
             OpenAiChatModel
                 .OpenAiChatModelBuilder()

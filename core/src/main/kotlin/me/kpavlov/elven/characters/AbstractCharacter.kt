@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import ktx.log.Logger
+import me.kpavlov.elven.ChatController
 
 @Suppress("LongParameterList")
 abstract class AbstractCharacter(
@@ -92,6 +93,9 @@ abstract class AbstractCharacter(
     }
 
     protected fun sayHey() {
+//        addAction(Actions.)
+        ChatController.say(this@AbstractCharacter, "Hello, I am $name")
+//        tooltip("Hell, I am $name") { }
         logger.info { "Hey!" }
     }
 }
