@@ -2,6 +2,7 @@ package me.kpavlov.elven
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMap
@@ -13,6 +14,7 @@ import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import ktx.actors.stage
+import ktx.assets.async.AssetStorage
 import ktx.scene2d.actor
 import ktx.scene2d.actors
 import me.kpavlov.elven.characters.AbstractCharacter
@@ -30,6 +32,8 @@ private const val DEBUG = false
  * platforms.
  */
 class Main : ApplicationAdapter() {
+    private lateinit var assetManager: AssetManager
+    private lateinit var assetStorage: AssetStorage
     private lateinit var batch: Batch
     private lateinit var elf: Elf
     private lateinit var dwarf: Dwarf
@@ -48,6 +52,9 @@ class Main : ApplicationAdapter() {
     private val playerCharacters = mutableListOf<PlayerCharacter>()
 
     override fun create() {
+        assetStorage = initiateAssetStorage()
+        loadFont("ui/fonts/NotoSans-Regular.ttf", assetStorage)
+
         audioController = AudioController
         audioController.playMusic()
 
@@ -96,7 +103,7 @@ class Main : ApplicationAdapter() {
                 playerCharacters += elf
             }
             actor(dwarf) {
-                playerCharacters += dwarf
+                allCharacters += dwarf
             }
         }
     }

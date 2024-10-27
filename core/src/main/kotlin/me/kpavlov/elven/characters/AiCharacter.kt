@@ -3,9 +3,8 @@ package me.kpavlov.elven.characters
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import ktx.async.KtxAsync
 import me.kpavlov.elven.ai.AiStrategy
 
 @Suppress("LongParameterList")
@@ -39,11 +38,9 @@ abstract class AiCharacter(
         from: PlayerCharacter,
         callback: (String) -> Unit,
     ) {
-        GlobalScope.launch(Dispatchers.IO) {
-            launch {
-                val answer = aiStrategy.reply(question)
-                callback(answer)
-            }
+        KtxAsync.launch {
+            val answer = aiStrategy.reply(question)
+            callback(answer)
         }
     }
 

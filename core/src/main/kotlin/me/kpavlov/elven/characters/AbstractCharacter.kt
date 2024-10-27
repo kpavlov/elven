@@ -21,7 +21,7 @@ abstract class AbstractCharacter(
     var speed: Number = 10,
     var run: Boolean = false,
 ) : Actor() {
-    protected val logger = Logger(name)
+    val logger = Logger(name)
 
     private val texture = Texture("characters/$folderName/texture.png")
     private val region = TextureRegion(texture)

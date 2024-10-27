@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea
 import com.badlogic.gdx.utils.Align
-import ktx.actors.centerPosition
 import ktx.actors.onClick
 import ktx.actors.onKeyDown
 import ktx.scene2d.KDialog
@@ -15,12 +14,15 @@ import ktx.scene2d.dialog
 import ktx.scene2d.horizontalGroup
 import ktx.scene2d.label
 import ktx.scene2d.scrollPane
+import ktx.scene2d.table
 import ktx.scene2d.textArea
 import ktx.scene2d.textButton
 import ktx.scene2d.verticalGroup
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.AiCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
+
+private const val PAD_SIZE = 10f
 
 object ChatWindow {
     private lateinit var stage: Stage
@@ -39,44 +41,43 @@ object ChatWindow {
         stage.actors {
             dialog =
                 dialog("Chat") {
-                    verticalGroup {
-                        createChatScrollPane()
-                        createInputTextArea()
-                        createButtonGroup()
-                    }
+                    table {
+                        scrollPane {
+                            fadeScrollBars = false
+                            chatMessages =
+                                verticalGroup {
+                                    fill()
+                                }
+                        }.cell(grow = true)
+                        row()
+
+                        inputTextArea =
+                            textArea("") {
+                                setPrefRows(2f)
+                                onKeyDown {
+                                    if (it == Keys.ENTER) {
+                                        handleInputMessage()
+                                    }
+                                }
+                            }.cell(growX = true)
+                        row()
+
+                        horizontalGroup {
+                            textButton("Leave") {
+                                onClick { leaveChat() }
+                            }
+                            grow()
+
+                            textButton("Say") {
+                                onClick { handleInputMessage() }
+                                align(Align.right)
+                            }
+                        }.pad(PAD_SIZE)
+                    }.cell(grow = false, maxWidth = 1000f, maxHeight = 400f, minWidth = 600f)
                 }
         }
 
         configureDialog()
-    }
-
-    private fun KVerticalGroup.createChatScrollPane() {
-        scrollPane {
-            chatMessages = verticalGroup()
-        }
-    }
-
-    private fun KVerticalGroup.createInputTextArea() {
-        inputTextArea =
-            textArea("") {
-                onKeyDown {
-                    if (it == Keys.ENTER) {
-                        handleInputMessage()
-                    }
-                }
-            }
-    }
-
-    private fun KVerticalGroup.createButtonGroup() {
-        horizontalGroup {
-            textButton("Leave") {
-                onClick { leaveChat() }
-            }
-            textButton("Say") {
-                onClick { handleInputMessage() }
-                align(Align.right)
-            }
-        }
     }
 
     private fun configureDialog() {
@@ -98,10 +99,13 @@ object ChatWindow {
         player?.let { currentPlayer ->
             npc?.let { currentNpc ->
                 addMessage(currentPlayer, text)
+                inputTextArea.isDisabled = true
                 inputTextArea.text = ""
+
                 currentNpc.ask(text, from = currentPlayer) {
                     if (dialog.isVisible) {
                         addMessage(currentNpc, it)
+                        inputTextArea.isDisabled = false
                     }
                 }
             }
@@ -121,7 +125,10 @@ object ChatWindow {
         this.npc = npc
         chatMessages.clearChildren()
         inputTextArea.text = ""
+        dialog.titleLabel.setText("Chat with ${npc.name}")
+        dialog.pack()
         dialog.show(stage)
+        dialog.toFront()
         dialog.isVisible = true
     }
 
@@ -139,10 +146,14 @@ object ChatWindow {
     ) {
         chatMessages.horizontalGroup {
             label("${actor.name}: ")
-            label(text)
+            label(text) {
+            }
+            grow()
         }
+        actor.logger.info { text }
+        dialog.align(Align.bottom)
         dialog.pack()
-        dialog.centerPosition()
+//        dialog.centerPosition()
         dialog.toFront()
     }
 }

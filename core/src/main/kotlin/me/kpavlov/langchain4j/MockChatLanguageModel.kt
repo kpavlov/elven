@@ -25,6 +25,7 @@ class MockChatLanguageModel : ChatLanguageModel {
     override fun generate(messages: List<ChatMessage>): Response<AiMessage> {
         val lastUserMessage = messages.filterIsInstance<UserMessage>().lastOrNull()
         return if (lastUserMessage != null) {
+            Thread.sleep(500)
             val responseText = expectedResponses[lastUserMessage.singleText()] ?: "Unexpected request"
             Response(AiMessage(responseText))
         } else {
