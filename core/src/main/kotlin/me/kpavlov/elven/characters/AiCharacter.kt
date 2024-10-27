@@ -2,13 +2,18 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import me.kpavlov.elven.ChatController
 import me.kpavlov.elven.ai.AiStrategy
 
 @Suppress("LongParameterList")
 abstract class AiCharacter(
     name: String,
-    folderName: String = name,
+    private val folderName: String = name,
     x: Float = 0f,
     y: Float = 0f,
     width: Int,
@@ -28,28 +33,31 @@ abstract class AiCharacter(
     private val aiStrategy = AiStrategy(name)
     private var sound: Sound? = null
 
+    @OptIn(
+        DelicateCoroutinesApi::class,
+    )
     fun ask(
         question: String,
-        from: PlayerCharacter? = null,
+        from: PlayerCharacter,
     ) {
-//        GlobalScope.launch(Dispatchers.IO) {
-//            async {
-        from?.let {
+        from.let {
             ChatController.say(it, question)
         }
-        val answer = aiStrategy.reply(question)
-        ChatController.say(this@AiCharacter, answer)
-        logger.info {
-            answer
+        GlobalScope.launch(Dispatchers.IO) {
+            async {
+                val answer = aiStrategy.reply(question)
+                ChatController.say(this@AiCharacter, answer)
+                logger.info {
+                    answer
+                }
+            }
         }
-//            }
-//        }
     }
 
     fun onMeetPlayer(player: PlayerCharacter) {
         try {
             if (sound == null) {
-                sound = Gdx.audio.newSound(Gdx.files.internal("audio/sounds/orc/hey.mp3"))
+                sound = Gdx.audio.newSound(Gdx.files.internal("characters/$folderName/hey.mp3"))
             }
             sound?.play(1f)
         } catch (e: Exception) {

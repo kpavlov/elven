@@ -11,6 +11,7 @@ import ktx.scene2d.KWindow
 import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.actors
 import ktx.scene2d.dialog
+import ktx.scene2d.image
 import ktx.scene2d.label
 import ktx.scene2d.textArea
 import ktx.scene2d.verticalGroup
@@ -59,6 +60,7 @@ object ChatController {
         stage.actors {
             chatWindow =
                 window("Chat") {
+                    image { }
 //                    scrollPane {
                     chatMessages = verticalGroup()
 //                    }
