@@ -83,6 +83,7 @@ object ChatWindow {
         dialog.apply {
             isVisible = false
             isModal = true
+            isResizable = true
         }
     }
 
@@ -96,11 +97,11 @@ object ChatWindow {
         }
         player?.let { currentPlayer ->
             npc?.let { currentNpc ->
-                say(currentPlayer, text)
+                addMessage(currentPlayer, text)
                 inputTextArea.text = ""
                 currentNpc.ask(text, from = currentPlayer) {
                     if (dialog.isVisible) {
-                        say(currentNpc, it)
+                        addMessage(currentNpc, it)
                     }
                 }
             }
@@ -125,6 +126,14 @@ object ChatWindow {
     }
 
     fun say(
+        actor: PlayerCharacter,
+        text: String,
+    ) {
+        inputTextArea.text = text
+        handleInputMessage()
+    }
+
+    private fun addMessage(
         actor: AbstractCharacter,
         text: String,
     ) {

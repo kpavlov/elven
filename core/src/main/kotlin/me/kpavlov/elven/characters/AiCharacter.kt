@@ -40,8 +40,10 @@ abstract class AiCharacter(
         callback: (String) -> Unit,
     ) {
         GlobalScope.launch(Dispatchers.IO) {
-            val answer = aiStrategy.reply(question)
-            callback(answer)
+            launch {
+                val answer = aiStrategy.reply(question)
+                callback(answer)
+            }
         }
     }
 

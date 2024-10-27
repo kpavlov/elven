@@ -15,7 +15,7 @@ class AiStrategy(
         systemPrompt = file.readString()
     }
 
-    suspend fun reply(question: String): String {
+    fun reply(question: String): String {
         val result =
             model.generate(
                 listOf(
