@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
-import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.ScreenUtils
-import com.badlogic.gdx.utils.viewport.ScreenViewport
+import com.badlogic.gdx.utils.viewport.FillViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import ktx.actors.stage
 import ktx.assets.async.AssetStorage
@@ -41,9 +42,14 @@ class Main : ApplicationAdapter() {
     private lateinit var viewport: Viewport
     private lateinit var touchPos: Vector2
     private lateinit var map: TiledMap
+    private var mapWidth: Float = -1f
+    private var mapHeight: Float = -1f
+
     private lateinit var camera: OrthographicCamera
     private lateinit var cameraController: CameraController
-    private lateinit var mapRenderer: IsometricTiledMapRenderer
+
+    //    private lateinit var mapRenderer: IsometricTiledMapRenderer
+    private lateinit var mapRenderer: OrthogonalTiledMapRenderer
     private lateinit var stage: Stage
     private lateinit var audioController: AudioController
     private var isPaused = false
@@ -61,22 +67,31 @@ class Main : ApplicationAdapter() {
         camera = OrthographicCamera()
         camera.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
 
-        map = TmxMapLoader().load("scenes/grass_and_water/isometric_grass_and_water.tmx")
-        mapRenderer = IsometricTiledMapRenderer(map)
+//        map = TmxMapLoader().load("scenes/grass_and_water/isometric_grass_and_water.tmx")
+//        mapRenderer = IsometricTiledMapRenderer(map)
+
+        map = TmxMapLoader().load("terrains/island.tmx")
+        val tileWidth = map.properties["tilewidth", Int::class.java]
+        mapWidth = map.properties["width", Int::class.java].toFloat() * tileWidth
+        val tileHeight = map.properties["tileheight", Int::class.java]
+        mapHeight = map.properties["height", Int::class.java].toFloat() * tileHeight
+
+        mapRenderer = OrthogonalTiledMapRenderer(map, 1f)
 
         // Set up the Stage and UI
-        stage = stage(viewport = ScreenViewport(camera))
+        stage = stage(viewport = FillViewport(mapWidth, mapHeight, camera))
+//        stage = stage(viewport = ScreenViewport(camera))
         Gdx.input.inputProcessor = stage // Make the stage receive input
         stage.isDebugAll = DEBUG
 
         batch = stage.batch
         viewport = stage.viewport
 
-        cameraController = CameraController(camera, input)
+//        cameraController = CameraController(camera, input)
         ChatController.attachToStage(stage)
         ChatWindow.attachToStage(stage)
 
-        positionCameraAtMapCenter(camera, map)
+//        positionCameraAtMapCenter(camera, map)
 
         elf = Elf()
         dwarf = Dwarf()
@@ -88,12 +103,12 @@ class Main : ApplicationAdapter() {
 
         touchPos = Vector2()
 
-        cameraController.actor = elf
+//        cameraController.actor = elf
 
-        elf.setPosition(200f, 10f)
-        dwarf.setPosition(1000f, -80f)
+        elf.setPosition(730f, 280f)
+        dwarf.setPosition(140f, 320f)
 //        orc.setPosition(900f, 300f)
-        orc.setPosition(300f, 10f)
+        orc.setPosition(500f, 300f)
 
         stage.actors {
             actor(orc) {
@@ -106,6 +121,7 @@ class Main : ApplicationAdapter() {
                 allCharacters += dwarf
             }
         }
+        constrainCameraToMap()
     }
 
     override fun resize(
@@ -128,7 +144,7 @@ class Main : ApplicationAdapter() {
             it.reactOnControls(input)
         }
 
-        cameraController.reactOnControls()
+//        cameraController.reactOnControls()
     }
 
     private fun logic() {
@@ -152,6 +168,7 @@ class Main : ApplicationAdapter() {
         // Update and render the stage
         stage.act(Gdx.graphics.deltaTime)
         stage.draw()
+//        constrainCameraToMap()
     }
 
     override fun pause() {
@@ -188,5 +205,13 @@ class Main : ApplicationAdapter() {
         // Set camera position to map center
         camera.position.set(mapCenterX, mapCenterY, 0f)
         camera.update()
+    }
+
+    private fun constrainCameraToMap() {
+        // Calculate the camera boundaries
+        val cameraHalfWidth = camera.viewportWidth * 0.5f
+        val cameraHalfHeight = camera.viewportHeight * 0.5f
+        camera.position.x = MathUtils.clamp(camera.position.x, cameraHalfWidth, mapWidth - cameraHalfWidth)
+        camera.position.y = MathUtils.clamp(camera.position.y, cameraHalfHeight, mapHeight - cameraHalfHeight)
     }
 }
