@@ -18,6 +18,7 @@ import ktx.actors.stage
 import ktx.assets.async.AssetStorage
 import ktx.scene2d.actor
 import ktx.scene2d.actors
+import ktx.scene2d.textArea
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.Dwarf
 import me.kpavlov.elven.characters.Elf
@@ -27,6 +28,7 @@ import me.kpavlov.elven.characters.PlayerCharacter
 private val input = Gdx.input
 
 private const val DEBUG = false
+private const val PLAY_MUSIC = false
 
 /**
  * [com.badlogic.gdx.ApplicationListener] implementation shared by all
@@ -62,7 +64,9 @@ class Main : ApplicationAdapter() {
         loadFont("ui/fonts/NotoSans-Regular.ttf", assetStorage)
 
         audioController = AudioController
-        audioController.playMusic()
+        if (PLAY_MUSIC) {
+            audioController.playMusic()
+        }
 
         camera = OrthographicCamera()
         camera.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
@@ -111,6 +115,16 @@ class Main : ApplicationAdapter() {
         orc.setPosition(500f, 300f)
 
         stage.actors {
+            textArea {
+                """Но далеко-далеко за словесными горами
+                    |в стране гласных и согласных живут рыбные тексты.
+                    |Вдали от всех живут они в буквенных домах на берегу Семантика
+                    |большого языкового океана.
+                    |Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    |sed do eiusmod tempor incididunt
+                    |ut labore et dolore magna aliqua.
+                """.trimMargin()
+            }
             actor(orc) {
                 allCharacters += orc
             }

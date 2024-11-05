@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_22
+
 val enableGraalNative: String by project
 val graalHelperVersion: String by project
 
@@ -19,5 +21,13 @@ dependencies {
 
     if (enableGraalNative == "true") {
         implementation(libs.gdx.svmhelper.annotations)
+    }
+}
+
+kotlin {
+    compilerOptions {
+        javaParameters = true
+        jvmTarget = JVM_22
+        progressiveMode = true
     }
 }

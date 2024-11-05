@@ -7,7 +7,7 @@ object AudioController {
     private val music: Music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/background.wav"))
 
     init {
-        music.volume = 0.5f // sets the volume to half the maximum volume
+        music.volume = 0.1f // sets the volume to half the maximum volume
         music.isLooping = true
     }
 
