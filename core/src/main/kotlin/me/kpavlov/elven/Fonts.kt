@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import ktx.style.set
 
-private const val FONT_PATH = "ui/fonts/Roboto-Regular.ttf"
+// private const val FONT_PATH = "fonts/Roboto-Regular.ttf"
+// private const val FONT_PATH = "fonts/NotoSans-Regular.ttf"
+private const val FONT_PATH = "fonts/NotoSans-Medium.ttf"
 
 private const val CYRILLIC_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя"
 
@@ -17,7 +20,7 @@ class FontGenerator(
 
     fun generateFont(
         size: Int,
-        color: com.badlogic.gdx.graphics.Color = com.badlogic.gdx.graphics.Color.YELLOW,
+        color: com.badlogic.gdx.graphics.Color = com.badlogic.gdx.graphics.Color.WHITE,
     ): BitmapFont =
         generator.generateFont(
             FreeTypeFontGenerator.FreeTypeFontParameter().apply {
@@ -42,12 +45,21 @@ class FontGenerator(
 fun Skin.addFonts(fontPath: String = FONT_PATH) {
     val fontGen = FontGenerator(fontPath)
 
+    println(this.toString())
+
     // Generate different font sizes
-    add("small", fontGen.generateFont(12))
-    add("default", fontGen.generateFont(16))
-    add("medium", fontGen.generateFont(20))
-    add("large", fontGen.generateFont(24))
-    add("title", fontGen.generateFont(32))
+    set("small", fontGen.generateFont(12))
+    val defaultSize = fontGen.generateFont(16)
+    set("default", defaultSize)
+    set("default-font", defaultSize)
+    set("list", defaultSize)
+    set("font", defaultSize)
+    set("subtitle", defaultSize)
+    set("window", defaultSize)
+
+    set("medium", fontGen.generateFont(20))
+    set("large", fontGen.generateFont(24))
+    set("title", fontGen.generateFont(32))
 
     // Cleanup
     fontGen.dispose()

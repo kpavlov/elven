@@ -26,7 +26,7 @@ class MockChatLanguageModel : ChatLanguageModel {
         val lastUserMessage = messages.filterIsInstance<UserMessage>().lastOrNull()
         return if (lastUserMessage != null) {
             Thread.sleep(500)
-            val responseText = expectedResponses[lastUserMessage.singleText()] ?: "Unexpected request"
+            val responseText = expectedResponses[lastUserMessage.singleText()] ?: "Я не понимаю"
             Response(AiMessage(responseText))
         } else {
             Response(AiMessage("No user message found"))

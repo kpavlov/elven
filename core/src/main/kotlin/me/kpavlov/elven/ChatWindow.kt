@@ -145,10 +145,9 @@ object ChatWindow {
         text: String,
     ) {
         chatMessages.horizontalGroup {
-            label("${actor.name}: ")
-            label(text) {
-            }
-            grow()
+            label("${actor.name}: ", skin = mySkin)
+            label(text, skin = mySkin)
+            pack()
         }
         actor.logger.info { text }
         dialog.align(Align.bottom)

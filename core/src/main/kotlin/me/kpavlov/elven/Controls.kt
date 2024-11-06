@@ -8,7 +8,7 @@ val arrowControls =
         keyLeft = Keys.LEFT,
         keyRight = Keys.RIGHT,
         keyDown = Keys.DOWN,
-        keyRun = Keys.SHIFT_RIGHT,
+        keyRun = Keys.SHIFT_LEFT,
     )
 
 val asdwControls =

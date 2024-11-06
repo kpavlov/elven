@@ -95,8 +95,8 @@ abstract class AbstractCharacter(
 
     protected fun sayHey() {
 //        addAction(Actions.)
-        ChatController.say(this@AbstractCharacter, "Привет, я    $name")
-//        tooltip("Hell, I am $name") { }
-        logger.info { "Hey!" }
+        val greeting = "Привет, я $name"
+        ChatController.say(this@AbstractCharacter, greeting)
+        logger.info { greeting }
     }
 }

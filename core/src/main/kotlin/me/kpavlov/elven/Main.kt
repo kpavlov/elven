@@ -34,6 +34,16 @@ private val input = Gdx.input
 private const val DEBUG = false
 private const val PLAY_MUSIC = false
 
+private val LIPSUM =
+    """Но далеко-далеко за словесными горами
+                    |в стране гласных и согласных живут рыбные тексты.
+                    |Вдали от всех живут они в буквенных домах на берегу Семантика
+                    |большого языкового океана.
+                    |Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    |sed do eiusmod tempor incididunt
+                    |ut labore et dolore magna aliqua.
+    """.trimMargin()
+
 /**
  * [com.badlogic.gdx.ApplicationListener] implementation shared by all
  * platforms.
@@ -69,7 +79,7 @@ class Main : ApplicationAdapter() {
         assetStorage = initiateAssetStorage()
         myFont = DefaultFonts.defaultFont
 
-        initSkin()
+        initSkin(myFont)
 
         audioController = AudioController
         if (PLAY_MUSIC) {
@@ -130,16 +140,7 @@ class Main : ApplicationAdapter() {
             }
 
         stage.actors {
-            textArea {
-                """Но далеко-далеко за словесными горами
-                    |в стране гласных и согласных живут рыбные тексты.
-                    |Вдали от всех живут они в буквенных домах на берегу Семантика
-                    |большого языкового океана.
-                    |Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    |sed do eiusmod tempor incididunt
-                    |ut labore et dolore magna aliqua.
-                """.trimMargin()
-            }
+            textArea(LIPSUM)
             actor(orc) {
                 allCharacters += orc
             }
@@ -197,6 +198,13 @@ class Main : ApplicationAdapter() {
         // Update and render the stage
         stage.act(Gdx.graphics.deltaTime)
         stage.draw()
+
+        /*
+        batch.begin()
+        myFont.draw(batch, LIPSUM, 70f, 520f)
+        batch.end()
+         */
+
 //        constrainCameraToMap()
     }
 
