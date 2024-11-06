@@ -145,8 +145,8 @@ object ChatWindow {
         text: String,
     ) {
         chatMessages.horizontalGroup {
-            label("${actor.name}: ", skin = mySkin)
-            label(text, skin = mySkin)
+            label("${actor.name}: ")
+            label(text)
             pack()
         }
         actor.logger.info { text }

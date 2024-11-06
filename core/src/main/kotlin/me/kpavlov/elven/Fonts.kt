@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.utils.Disposable
 import ktx.style.set
 
 // private const val FONT_PATH = "fonts/Roboto-Regular.ttf"
@@ -15,7 +16,7 @@ private const val CYRILLIC_ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТ�
 // Utility class to manage font generation
 class FontGenerator(
     fontPath: String,
-) {
+) : Disposable {
     private val generator = FreeTypeFontGenerator(Gdx.files.internal(fontPath))
 
     fun generateFont(
@@ -36,7 +37,7 @@ class FontGenerator(
             },
         )
 
-    fun dispose() {
+    override fun dispose() {
         generator.dispose()
     }
 }
@@ -74,11 +75,14 @@ data object DefaultFonts {
 
     init {
         val generator = FontGenerator(FONT_PATH)
-        defaultFont = generator.generateFont(16)
-        small = generator.generateFont(12)
-        medium = generator.generateFont(20)
-        large = generator.generateFont(24)
-        title = generator.generateFont(32)
-        generator.dispose()
+        try {
+            defaultFont = generator.generateFont(16)
+            small = generator.generateFont(12)
+            medium = generator.generateFont(20)
+            large = generator.generateFont(24)
+            title = generator.generateFont(32)
+        } finally {
+            generator.dispose()
+        }
     }
 }

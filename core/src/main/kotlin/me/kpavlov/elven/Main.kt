@@ -79,7 +79,7 @@ class Main : ApplicationAdapter() {
         assetStorage = initiateAssetStorage()
         myFont = DefaultFonts.defaultFont
 
-        initSkin(myFont)
+        initSkin()
 
         audioController = AudioController
         if (PLAY_MUSIC) {
