@@ -5,6 +5,7 @@ import kotlinx.coroutines.launch
 import ktx.assets.async.AssetStorage
 import ktx.async.KtxAsync
 import ktx.freetype.async.loadFreeTypeFontAsync
+import ktx.freetype.async.loadFreeTypeFontSync
 import ktx.freetype.async.registerFreeTypeFontLoaders
 
 fun initiateAssetStorage(): AssetStorage {
@@ -20,16 +21,20 @@ fun initiateAssetStorage(): AssetStorage {
     return assetStorage
 }
 
-fun loadFont(
-    fontPath: String,
-    assetStorage: AssetStorage,
-) {
+fun AssetStorage.loadFontAsync(fontPath: String) {
     // Scheduling font loading:
-    val deferred = assetStorage.loadFreeTypeFontAsync(fontPath)
+    val deferred = this.loadFreeTypeFontAsync(fontPath)
     // Launching a coroutine:
-    KtxAsync.launch {
-        // Waiting until the font is loaded:
-        val font: BitmapFont = deferred.await()
-        // Font is now ready to use.
-    }
+    val job =
+        KtxAsync.launch {
+            // Waiting until the font is loaded:
+            val font: BitmapFont = deferred.await()
+            // Font is now ready to use.
+        }
+}
+
+fun AssetStorage.loadFont(fontPath: String): BitmapFont {
+    // Scheduling font loading:
+    val font: BitmapFont = this.loadFreeTypeFontSync(fontPath)
+    return font
 }

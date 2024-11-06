@@ -95,7 +95,7 @@ abstract class AbstractCharacter(
 
     protected fun sayHey() {
 //        addAction(Actions.)
-        ChatController.say(this@AbstractCharacter, "Hello, I am $name")
+        ChatController.say(this@AbstractCharacter, "Привет, я    $name")
 //        tooltip("Hell, I am $name") { }
         logger.info { "Hey!" }
     }

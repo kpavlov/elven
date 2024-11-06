@@ -1,14 +1,11 @@
 package me.kpavlov.elven
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import ktx.scene2d.KDialog
 import ktx.scene2d.KVerticalGroup
 import ktx.scene2d.KWindow
-import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.actors
 import ktx.scene2d.dialog
 import ktx.scene2d.image
@@ -21,19 +18,17 @@ object ChatController {
     private lateinit var chatMessages: KVerticalGroup
     private lateinit var chatWindow: KWindow
     private lateinit var chatDialog: KDialog
+    private lateinit var font: BitmapFont
 
     private lateinit var stage: Stage
 
-    fun attachToStage(stage: Stage) {
+    fun attachToStage(
+        stage: Stage,
+        font: BitmapFont,
+    ) {
         this.stage = stage
-        initSkin()
+        this.font = font
         initActors()
-    }
-
-    private fun initSkin() {
-        val textureAtlas = TextureAtlas("skin/uiskin.atlas")
-        val skin = Skin(Gdx.files.internal("skin/uiskin.json"), textureAtlas)
-        Scene2DSkin.defaultSkin = skin
     }
 
     private fun initActors() {

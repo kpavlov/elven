@@ -5,12 +5,14 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.viewport.FillViewport
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -19,6 +21,8 @@ import ktx.assets.async.AssetStorage
 import ktx.scene2d.actor
 import ktx.scene2d.actors
 import ktx.scene2d.textArea
+import ktx.style.label
+import ktx.style.skin
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.Dwarf
 import me.kpavlov.elven.characters.Elf
@@ -44,6 +48,7 @@ class Main : ApplicationAdapter() {
     private lateinit var viewport: Viewport
     private lateinit var touchPos: Vector2
     private lateinit var map: TiledMap
+    private lateinit var defaultSkin: Skin
     private var mapWidth: Float = -1f
     private var mapHeight: Float = -1f
 
@@ -54,6 +59,7 @@ class Main : ApplicationAdapter() {
     private lateinit var mapRenderer: OrthogonalTiledMapRenderer
     private lateinit var stage: Stage
     private lateinit var audioController: AudioController
+    private lateinit var myFont: BitmapFont
     private var isPaused = false
 
     private val allCharacters = mutableListOf<AbstractCharacter>()
@@ -61,7 +67,9 @@ class Main : ApplicationAdapter() {
 
     override fun create() {
         assetStorage = initiateAssetStorage()
-        loadFont("ui/fonts/NotoSans-Regular.ttf", assetStorage)
+        myFont = DefaultFonts.defaultFont
+
+        initSkin()
 
         audioController = AudioController
         if (PLAY_MUSIC) {
@@ -92,7 +100,7 @@ class Main : ApplicationAdapter() {
         viewport = stage.viewport
 
 //        cameraController = CameraController(camera, input)
-        ChatController.attachToStage(stage)
+        ChatController.attachToStage(stage, myFont)
         ChatWindow.attachToStage(stage)
 
 //        positionCameraAtMapCenter(camera, map)
@@ -113,6 +121,13 @@ class Main : ApplicationAdapter() {
         dwarf.setPosition(140f, 320f)
 //        orc.setPosition(900f, 300f)
         orc.setPosition(500f, 300f)
+
+        val myskin =
+            skin {
+                label {
+                    font = myFont
+                }
+            }
 
         stage.actors {
             textArea {

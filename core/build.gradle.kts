@@ -13,11 +13,11 @@ dependencies {
     api(libs.ktx.assets.async)
     api(libs.ktx.freetype.async)
     api(libs.ktx.log)
+    api(libs.ktx.style)
+    api(libs.gdx.tools)
     api(libs.ktx.scene2d)
     api(libs.langchain4j)
     api(libs.langchain4j.openai)
-
-//    implementation("com.badlogicgames.gdx:gdx-freetype-platform:${libs.versions.gdx}:natives-desktop")
 
     if (enableGraalNative == "true") {
         implementation(libs.gdx.svmhelper.annotations)

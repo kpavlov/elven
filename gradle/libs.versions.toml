@@ -1,5 +1,5 @@
 [versions]
-gdx = "1.13.0"
+gdx = "1.12.1"
 graalHelper = "2.0.1"
 kotlin = "2.0.21"
 kotlinx = "1.9.0"
@@ -12,6 +12,7 @@ slf4j = "2.0.16"
 [libraries]
 gdx = { module = "com.badlogicgames.gdx:gdx", version.ref = "gdx" }
 gdx-backend-lwjgl3 = { module = "com.badlogicgames.gdx:gdx-backend-lwjgl3", version.ref="gdx"}
+gdx-tools = { module = "com.badlogicgames.gdx:gdx-tools", version.ref = "gdx" }
 gdx-svmhelper-annotations = { module = "io.github.berstanio:gdx-svmhelper-annotations", version.ref = "graalHelper" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -35,6 +36,7 @@ ktx-ai = { module = "io.github.libktx:ktx-ai", version.ref = "ktx" }
 ktx-assets-async = { module = "io.github.libktx:ktx-assets-async", version.ref = "ktx" }
 ktx-freetype-async = { module = "io.github.libktx:ktx-freetype-async", version.ref = "ktx" }
 ktx-app = { module = "io.github.libktx:ktx-app", version.ref = "ktx" }
+ktx-style = { module = "io.github.libktx:ktx-style", version.ref = "ktx" }
 ktx-log = { module = "io.github.libktx:ktx-log", version.ref = "ktx" }
 ktx-scene2d = { module = "io.github.libktx:ktx-scene2d", version.ref = "ktx" }
 langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
