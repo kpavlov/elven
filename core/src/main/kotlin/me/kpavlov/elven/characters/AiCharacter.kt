@@ -2,9 +2,9 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
+import me.kpavlov.elven.AudioManager
 import me.kpavlov.elven.ai.AiStrategy
 
 @Suppress("LongParameterList")
@@ -30,9 +30,14 @@ abstract class AiCharacter(
     private val aiStrategy = AiStrategy(name)
     private var sound: Sound? = null
 
-    @OptIn(
-        DelicateCoroutinesApi::class,
-    )
+    init {
+        try {
+            sound = Gdx.audio.newSound(Gdx.files.internal("characters/$folderName/hey.mp3"))
+        } catch (_: Exception) {
+            // ignore error
+        }
+    }
+
     fun ask(
         question: String,
         from: PlayerCharacter,
@@ -46,10 +51,9 @@ abstract class AiCharacter(
 
     fun onMeetPlayer(player: PlayerCharacter) {
         try {
-            if (sound == null) {
-                sound = Gdx.audio.newSound(Gdx.files.internal("characters/$folderName/hey.mp3"))
+            if (sound != null) {
+                AudioManager.playSound(sound)
             }
-            sound?.play(1f)
         } catch (e: Exception) {
             logger.error(e) { "Cannot play sound" }
         }

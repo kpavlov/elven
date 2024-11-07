@@ -3,6 +3,7 @@ package me.kpavlov.elven
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.BitmapFont
@@ -13,7 +14,6 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.viewport.FillViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import ktx.actors.stage
@@ -31,7 +31,6 @@ import me.kpavlov.elven.characters.PlayerCharacter
 private val input = Gdx.input
 
 private const val DEBUG = false
-private const val PLAY_MUSIC = false
 
 private val LIPSUM =
     """Но далеко-далеко за словесными горами
@@ -58,9 +57,10 @@ class Main : ApplicationAdapter() {
     private lateinit var viewport: Viewport
     private lateinit var touchPos: Vector2
     private lateinit var map: TiledMap
-    private lateinit var defaultSkin: Skin
+    private lateinit var skin: Skin
     private var mapWidth: Float = -1f
     private var mapHeight: Float = -1f
+    private lateinit var settingsScreen: SettingsScreen
 
     private lateinit var camera: OrthographicCamera
     private lateinit var cameraController: CameraController
@@ -68,7 +68,7 @@ class Main : ApplicationAdapter() {
     //    private lateinit var mapRenderer: IsometricTiledMapRenderer
     private lateinit var mapRenderer: OrthogonalTiledMapRenderer
     private lateinit var stage: Stage
-    private lateinit var audioController: AudioController
+    private lateinit var audioController: AudioManager
     private lateinit var myFont: BitmapFont
     private var isPaused = false
 
@@ -81,10 +81,7 @@ class Main : ApplicationAdapter() {
 
         initSkin()
 
-        audioController = AudioController
-        if (PLAY_MUSIC) {
-            audioController.playMusic()
-        }
+        audioController = AudioManager
 
         camera = OrthographicCamera()
         camera.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
@@ -102,6 +99,8 @@ class Main : ApplicationAdapter() {
 
         // Set up the Stage and UI
         stage = stage(viewport = FillViewport(mapWidth, mapHeight, camera))
+
+        settingsScreen = SettingsScreen(stage)
 //        stage = stage(viewport = ScreenViewport(camera))
         Gdx.input.inputProcessor = stage // Make the stage receive input
         stage.isDebugAll = DEBUG
@@ -178,7 +177,7 @@ class Main : ApplicationAdapter() {
     }
 
     private fun draw() {
-        ScreenUtils.clear(MOSSY_GREEN)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         // Update camera and set the view for the map renderer
         camera.update()

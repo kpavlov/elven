@@ -3,6 +3,7 @@ package me.kpavlov.elven
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea
 import com.badlogic.gdx.utils.Align
 import ktx.actors.onClick
@@ -22,13 +23,15 @@ import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.AiCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
 
-private const val PAD_SIZE = 10f
+const val PAD_SIZE = 5f
+const val SPACING = 15f
 
 object ChatWindow {
     private lateinit var stage: Stage
     private lateinit var chatMessages: KVerticalGroup
     private lateinit var inputTextArea: TextArea
     private lateinit var dialog: KDialog
+    private lateinit var scrollPane: ScrollPane
     private var player: PlayerCharacter? = null
     private var npc: AiCharacter? = null
 
@@ -42,13 +45,14 @@ object ChatWindow {
             dialog =
                 dialog("Chat") {
                     table {
-                        scrollPane {
-                            fadeScrollBars = false
-                            chatMessages =
-                                verticalGroup {
-                                    fill()
-                                }
-                        }.cell(grow = true)
+                        scrollPane =
+                            scrollPane {
+                                fadeScrollBars = false
+                                chatMessages =
+                                    verticalGroup {
+                                        space(SPACING)
+                                    }
+                            }.cell(grow = true, height = 250f)
                         row()
 
                         inputTextArea =
@@ -60,18 +64,20 @@ object ChatWindow {
                                     }
                                 }
                             }.cell(growX = true)
+
                         row()
 
                         horizontalGroup {
-                            textButton("Leave") {
-                                onClick { leaveChat() }
-                            }
-                            grow()
+                            space(SPACING)
 
-                            textButton("Say") {
+                            textButton("Уйти") {
+                                onClick { leaveChat() }
+                            }.pad(PAD_SIZE)
+
+                            textButton("Сказать") {
                                 onClick { handleInputMessage() }
                                 align(Align.right)
-                            }
+                            }.pad(PAD_SIZE)
                         }.pad(PAD_SIZE)
                     }.cell(grow = false, maxWidth = 1000f, maxHeight = 400f, minWidth = 600f)
                 }
@@ -145,10 +151,14 @@ object ChatWindow {
         text: String,
     ) {
         chatMessages.horizontalGroup {
+            align(Align.topLeft)
             label("${actor.name}: ")
             label(text)
-            pack()
         }
+
+        scrollPane.layout()
+        scrollPane.scrollPercentY = 1.0f
+
         actor.logger.info { text }
         dialog.align(Align.bottom)
         dialog.pack()

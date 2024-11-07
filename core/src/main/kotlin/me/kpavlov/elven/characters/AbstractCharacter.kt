@@ -1,5 +1,6 @@
 package me.kpavlov.elven.characters
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -24,6 +25,12 @@ abstract class AbstractCharacter(
     val logger = Logger(name)
 
     private val texture = Texture("characters/$folderName/texture.png")
+    private val avatar =
+        if (Gdx.files.internal("characters/$folderName/avatar.png").exists()) {
+            Texture("characters/$folderName/avatar.png")
+        } else {
+            texture
+        }
     private val region = TextureRegion(texture)
 
     init {
