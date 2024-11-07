@@ -25,8 +25,8 @@ abstract class AiCharacter(
         width = width,
         height = height,
         speed = speed,
-        run = run,
-    ) {
+    run = run,
+) {
     private val aiStrategy = AiStrategy(name)
     private var sound: Sound? = null
 
@@ -50,12 +50,8 @@ abstract class AiCharacter(
     }
 
     fun onMeetPlayer(player: PlayerCharacter) {
-        try {
-            if (sound != null) {
-                AudioManager.playSound(sound)
-            }
-        } catch (e: Exception) {
-            logger.error(e) { "Cannot play sound" }
+        if (sound != null) {
+            AudioManager.playSound(sound)
         }
     }
 

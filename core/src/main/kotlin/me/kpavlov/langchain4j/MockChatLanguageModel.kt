@@ -7,6 +7,18 @@ import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.output.Response
 import java.util.concurrent.ConcurrentHashMap
 
+private val genericResponses =
+    arrayOf(
+        "Интересно.",
+        "Трудно сказать.",
+        "Это сложный вопрос.",
+        "Нужно подумать.",
+        "Это возможно.",
+        "Подумаем об этом.",
+        "Я не уверен.",
+        "Может быть.",
+    )
+
 /**
  * LangChain4J ChatLanguageModel providing expected response to expected request.
  * Expected requests can be added dynamically. Follow wiremock interface
@@ -26,7 +38,7 @@ class MockChatLanguageModel : ChatLanguageModel {
         val lastUserMessage = messages.filterIsInstance<UserMessage>().lastOrNull()
         return if (lastUserMessage != null) {
             Thread.sleep(500)
-            val responseText = expectedResponses[lastUserMessage.singleText()] ?: "Я не понимаю"
+            val responseText = expectedResponses[lastUserMessage.singleText()] ?: genericResponses.random()
             Response(AiMessage(responseText))
         } else {
             Response(AiMessage("No user message found"))
