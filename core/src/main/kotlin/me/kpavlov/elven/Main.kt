@@ -24,9 +24,9 @@ import ktx.scene2d.textArea
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.Crab
 import me.kpavlov.elven.characters.Dwarf
-import me.kpavlov.elven.characters.Elf
 import me.kpavlov.elven.characters.Orc
 import me.kpavlov.elven.characters.PlayerCharacter
+import me.kpavlov.elven.characters.Robin
 
 private val input = Gdx.input
 
@@ -50,7 +50,7 @@ class Main : ApplicationAdapter() {
     private lateinit var assetManager: AssetManager
     private lateinit var assetStorage: AssetStorage
     private lateinit var batch: Batch
-    private lateinit var elf: Elf
+    private lateinit var player: Robin
     private lateinit var dwarf: Dwarf
     private lateinit var crab: Crab
     private lateinit var orc: Orc
@@ -114,7 +114,7 @@ class Main : ApplicationAdapter() {
 
 //        positionCameraAtMapCenter(camera, map)
 
-        elf = Elf()
+        player = Robin()
         dwarf = Dwarf()
         orc = Orc()
         crab = Crab()
@@ -125,7 +125,7 @@ class Main : ApplicationAdapter() {
 
 //        cameraController.actor = elf
 
-        elf.setPosition(730f, 280f)
+        player.setPosition(730f, 280f)
         dwarf.setPosition(140f, 320f)
         crab.setPosition(250f, 300f)
         orc.setPosition(500f, 300f)
@@ -138,8 +138,8 @@ class Main : ApplicationAdapter() {
             actor(crab) {
                 allCharacters += crab
             }
-            actor(elf) {
-                playerCharacters += elf
+            actor(player) {
+                playerCharacters += player
             }
             actor(dwarf) {
                 allCharacters += dwarf
@@ -204,7 +204,7 @@ class Main : ApplicationAdapter() {
     }
 
     override fun dispose() {
-        elf.dispose()
+        player.dispose()
         map.dispose()
         mapRenderer.dispose()
         stage.dispose()
