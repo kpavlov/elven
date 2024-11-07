@@ -1,6 +1,7 @@
 package me.kpavlov.elven
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
@@ -28,6 +29,14 @@ class FontGenerator(
                 this.size = size
                 this.color = color
                 this.characters = FreeTypeFontGenerator.DEFAULT_CHARS + CYRILLIC_ALPHABET
+
+                // Set the min and mag filter for smooth scaling
+                minFilter = Texture.TextureFilter.Linear
+                magFilter = Texture.TextureFilter.Linear
+
+                // Enable hinting for better font rendering at small sizes
+                hinting = FreeTypeFontGenerator.Hinting.Full
+
                 // Add additional parameters as needed
                 // borderWidth = 1f
                 // borderColor = Color.BLACK
