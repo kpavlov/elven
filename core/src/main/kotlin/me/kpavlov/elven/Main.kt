@@ -21,9 +21,8 @@ import ktx.assets.async.AssetStorage
 import ktx.scene2d.actor
 import ktx.scene2d.actors
 import ktx.scene2d.textArea
-import ktx.style.label
-import ktx.style.skin
 import me.kpavlov.elven.characters.AbstractCharacter
+import me.kpavlov.elven.characters.Crab
 import me.kpavlov.elven.characters.Dwarf
 import me.kpavlov.elven.characters.Elf
 import me.kpavlov.elven.characters.Orc
@@ -54,6 +53,7 @@ class Main : ApplicationAdapter() {
     private lateinit var batch: Batch
     private lateinit var elf: Elf
     private lateinit var dwarf: Dwarf
+    private lateinit var crab: Crab
     private lateinit var orc: Orc
     private lateinit var viewport: Viewport
     private lateinit var touchPos: Vector2
@@ -118,10 +118,9 @@ class Main : ApplicationAdapter() {
         elf = Elf()
         dwarf = Dwarf()
         orc = Orc()
+        crab = Crab()
 
         allCharacters.add(orc)
-
-        // viewport = FitViewport(10f, 10f)
 
         touchPos = Vector2()
 
@@ -129,20 +128,16 @@ class Main : ApplicationAdapter() {
 
         elf.setPosition(730f, 280f)
         dwarf.setPosition(140f, 320f)
-//        orc.setPosition(900f, 300f)
+        crab.setPosition(250f, 300f)
         orc.setPosition(500f, 300f)
-
-        val myskin =
-            skin {
-                label {
-                    font = myFont
-                }
-            }
 
         stage.actors {
             textArea(LIPSUM)
             actor(orc) {
                 allCharacters += orc
+            }
+            actor(crab) {
+                allCharacters += crab
             }
             actor(elf) {
                 playerCharacters += elf
@@ -163,7 +158,6 @@ class Main : ApplicationAdapter() {
 
     override fun render() {
         if (isPaused) return
-        // organize code into three methods
         input()
         logic()
         draw()
@@ -173,8 +167,6 @@ class Main : ApplicationAdapter() {
         playerCharacters.forEach {
             it.reactOnControls(input)
         }
-
-//        cameraController.reactOnControls()
     }
 
     private fun logic() {
@@ -198,12 +190,6 @@ class Main : ApplicationAdapter() {
         // Update and render the stage
         stage.act(Gdx.graphics.deltaTime)
         stage.draw()
-
-        /*
-        batch.begin()
-        myFont.draw(batch, LIPSUM, 70f, 520f)
-        batch.end()
-         */
 
 //        constrainCameraToMap()
     }
