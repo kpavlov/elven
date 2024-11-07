@@ -46,21 +46,25 @@ class FontGenerator(
 fun Skin.addFonts(fontPath: String = FONT_PATH) {
     val fontGen = FontGenerator(fontPath)
 
-    println(this.toString())
-
-    // Generate different font sizes
-    set("small", fontGen.generateFont(12))
     val defaultSize = fontGen.generateFont(16)
-    set("default", defaultSize)
-    set("default-font", defaultSize)
-    set("list", defaultSize)
-    set("font", defaultSize)
-    set("subtitle", defaultSize)
-    set("window", defaultSize)
+    // Generate different font sizes
+    val small = fontGen.generateFont(12)
+    val medium = fontGen.generateFont(20)
+    val large = fontGen.generateFont(24)
+    val title = fontGen.generateFont(32)
 
-    set("medium", fontGen.generateFont(20))
-    set("large", fontGen.generateFont(24))
-    set("title", fontGen.generateFont(32))
+    set("default-font", defaultSize)
+    set("default", medium)
+    set("font", medium)
+
+    set("small", small)
+    set("list", medium)
+    set("subtitle", large)
+    set("window", title)
+
+    set("medium", medium)
+    set("large", large)
+    set("title", title)
 
     // Cleanup
     fontGen.dispose()
@@ -76,11 +80,11 @@ data object DefaultFonts {
     init {
         val generator = FontGenerator(FONT_PATH)
         try {
-            defaultFont = generator.generateFont(16)
             small = generator.generateFont(12)
             medium = generator.generateFont(20)
             large = generator.generateFont(24)
             title = generator.generateFont(32)
+            defaultFont = medium
         } finally {
             generator.dispose()
         }
