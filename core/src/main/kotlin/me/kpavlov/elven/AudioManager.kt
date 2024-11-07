@@ -5,13 +5,14 @@ import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 
 object AudioManager {
-    private val music: Music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/background.wav"))
+    //    private val music: Music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/background.wav"))
+    private val music: Music = Gdx.audio.newMusic(Gdx.files.internal("audio/music/beach-party-240790.mp3"))
 
     var musicOn: Boolean = true
     var soundsOn: Boolean = true
 
     init {
-        music.volume = 0.1f // sets the volume to half the maximum volume
+        music.volume = 0.3f // sets the volume to half the maximum volume
         music.isLooping = true
     }
 
