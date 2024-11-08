@@ -2,8 +2,10 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
+import ktx.async.newSingleThreadAsyncContext
 import me.kpavlov.elven.AudioManager
 import me.kpavlov.elven.ai.AiStrategy
 
@@ -25,8 +27,8 @@ abstract class AiCharacter(
         width = width,
         height = height,
         speed = speed,
-    run = run,
-) {
+        run = run,
+    ) {
     private val aiStrategy = AiStrategy(name)
     private var sound: Sound? = null
 
@@ -43,9 +45,11 @@ abstract class AiCharacter(
         from: PlayerCharacter,
         callback: (String) -> Unit,
     ) {
+        val executor = newSingleThreadAsyncContext()
         KtxAsync.launch {
-            val answer = aiStrategy.reply(question)
-            callback(answer)
+            val answer = async { aiStrategy.reply(question) }
+            val result = answer.await()
+            callback(result)
         }
     }
 

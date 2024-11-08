@@ -18,6 +18,7 @@ dependencies {
     api(libs.ktx.scene2d)
     api(libs.langchain4j)
     api(libs.langchain4j.openai)
+    api(libs.langchain4j.easy.rag)
 
     if (enableGraalNative == "true") {
         implementation(libs.gdx.svmhelper.annotations)

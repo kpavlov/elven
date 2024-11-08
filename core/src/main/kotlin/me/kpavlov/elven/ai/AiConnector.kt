@@ -2,10 +2,9 @@ package me.kpavlov.elven.ai
 
 import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.openai.OpenAiChatModel
-import dev.langchain4j.model.openai.OpenAiChatModelName
 import me.kpavlov.langchain4j.MockChatLanguageModel
 
-private const val TEST = true
+private const val TEST = false
 
 object AiConnector {
     val model: ChatLanguageModel =
@@ -14,10 +13,11 @@ object AiConnector {
         } else {
             OpenAiChatModel
                 .OpenAiChatModelBuilder()
-                .modelName(OpenAiChatModelName.GPT_4_O_MINI)
+                .modelName("gpt-4o-mini")
+                .modelName("gpt-4o")
                 .temperature(0.7)
                 .maxCompletionTokens(150)
-                .apiKey("demo")
+                .apiKey(OPENAI_API_KEY)
                 .build()
         }
 }

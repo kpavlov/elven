@@ -1,4 +1,5 @@
 config:
   validation: true
   warningsAsErrors: false
-  excludes: 'MagicNumber'
+suppressions:
+  - 'MagicNumber'

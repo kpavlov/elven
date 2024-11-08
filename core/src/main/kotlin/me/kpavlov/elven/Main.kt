@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import ktx.actors.stage
 import ktx.assets.async.AssetStorage
+import ktx.async.KtxAsync
 import ktx.scene2d.actor
 import ktx.scene2d.actors
 import ktx.scene2d.textArea
@@ -76,6 +77,7 @@ class Main : ApplicationAdapter() {
     private val playerCharacters = mutableListOf<PlayerCharacter>()
 
     override fun create() {
+        KtxAsync.initiate()
         assetStorage = initiateAssetStorage()
         myFont = DefaultFonts.defaultFont
 

@@ -41,6 +41,7 @@ ktx-log = { module = "io.github.libktx:ktx-log", version.ref = "ktx" }
 ktx-scene2d = { module = "io.github.libktx:ktx-scene2d", version.ref = "ktx" }
 langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
 langchain4j-openai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
+langchain4j-easy-rag = { module = "dev.langchain4j:langchain4j-easy-rag", version.ref = "langchain4j" }
 
 [plugins]
 construo = { id = "io.github.fourlastor.construo", version = "1.5.0" }
