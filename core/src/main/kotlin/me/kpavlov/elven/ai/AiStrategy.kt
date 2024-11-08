@@ -9,27 +9,31 @@ import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever
 import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
+import kotlinx.coroutines.launch
+import ktx.async.KtxAsync
 import ktx.log.logger
 import me.kpavlov.elven.ai.AiConnector.model
 import kotlin.io.path.Path
 
-private val basePath = "../core/src/main/resources"
+private const val BASE_PATH = "../core/src/main/resources"
 
 class AiStrategy(
     name: String,
 ) {
-    private val systemPrompt: String
+    private lateinit var systemPrompt: String
     private val log = logger<AiStrategy>()
     private val embeddingStore = InMemoryEmbeddingStore<TextSegment>()
-    private val assistant: Assistant
+    private lateinit var assistant: Assistant
 
     init {
-        val systemPromptFile = Gdx.files.classpath("ai/characters/$name/system-prompt.md")
-        systemPrompt = systemPromptFile.readString()
+        KtxAsync.launch {
+            val systemPromptFile = Gdx.files.classpath("ai/characters/$name/system-prompt.md")
+            systemPrompt = systemPromptFile.readString()
 
-        loadKnowledge(name)
+            loadKnowledge(name)
 
-        assistant = createAssistant()
+            assistant = createAssistant()
+        }
     }
 
     private fun createAssistant(): Assistant =
@@ -49,7 +53,7 @@ class AiStrategy(
         }
 
         // load documents
-        val fsPath = Path(basePath, knowledgeDir.path())
+        val fsPath = Path(BASE_PATH, knowledgeDir.path())
         val fsAbsolutePath = fsPath.toAbsolutePath()
         val textDocumentParser = TextDocumentParser()
         val documents = FileSystemDocumentLoader.loadDocuments(fsAbsolutePath, textDocumentParser)

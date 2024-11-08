@@ -44,6 +44,10 @@ object ChatWindow {
         stage.actors {
             dialog =
                 dialog("Chat") {
+                    isMovable = true
+                    isResizable = false
+                    isModal = true
+                    isVisible = false
                     table {
                         scrollPane =
                             scrollPane {
@@ -81,16 +85,6 @@ object ChatWindow {
                         }.pad(PAD_SIZE)
                     }.cell(grow = false, maxWidth = 1000f, maxHeight = 400f, minWidth = 600f)
                 }
-        }
-
-        configureDialog()
-    }
-
-    private fun configureDialog() {
-        dialog.apply {
-            isVisible = false
-            isModal = true
-            isResizable = true
         }
     }
 
@@ -153,7 +147,7 @@ object ChatWindow {
         chatMessages.horizontalGroup {
             align(Align.topLeft)
             label("${actor.name}: ")
-            label(text)
+            label(insertLineBreaks(text))
         }
 
         scrollPane.layout()
@@ -164,5 +158,31 @@ object ChatWindow {
         dialog.pack()
 //        dialog.centerPosition()
         dialog.toFront()
+    }
+
+    fun insertLineBreaks(
+        text: String,
+        maxLineLength: Int = 50,
+    ): String {
+        val words = text.split(" ") // Split text into words by spaces
+        val result = StringBuilder()
+        var lineLength = 0
+
+        for (word in words) {
+            if (lineLength + word.length + 1 > maxLineLength) {
+                // If adding the next word exceeds the max line length, insert a newline
+                if (result.isNotEmpty()) {
+                    result.append("\n")
+                }
+                lineLength = 0
+            } else if (result.isNotEmpty()) {
+                // If it's not the first word, add a space before the word
+                result.append(" ")
+                lineLength += 1
+            }
+            result.append(word)
+            lineLength += word.length
+        }
+        return result.toString()
     }
 }
