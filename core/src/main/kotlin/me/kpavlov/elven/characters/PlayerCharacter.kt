@@ -1,5 +1,6 @@
 package me.kpavlov.elven.characters
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
@@ -41,9 +42,17 @@ abstract class PlayerCharacter(
     private var meetingWith: AiCharacter? = null
 
     private val collisionDistance = max(width, height)
+    private val greeting: String
 
     init {
         addListener(PlayerInputListener())
+        val greetingFile = Gdx.files.internal("characters/$folderName/greeting.txt")
+        greeting =
+            if (greetingFile.exists()) {
+                greetingFile.readString()
+            } else {
+                "Hello, my name is $name. How are you doing?"
+            }
 //        addListener(HitListener())
 //        addListener(
 //            object : ChangeListener() {
@@ -107,10 +116,8 @@ abstract class PlayerCharacter(
 
     private fun onMeetAiCharacter(other: AiCharacter) {
         ChatWindow.startDialog(this, other)
-        val question = "Hello, my name is $name. How are you doing?"
-        ChatWindow.say(this, question)
+        ChatWindow.say(this, greeting)
         other.onMeetPlayer(this)
-        // other.ask(from = this, question = question)
     }
 
     private fun onLeaveAiCharacter(other: AiCharacter) {

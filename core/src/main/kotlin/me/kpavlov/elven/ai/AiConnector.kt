@@ -13,7 +13,7 @@ object AiConnector {
         } else {
             OpenAiChatModel
                 .OpenAiChatModelBuilder()
-                .modelName("gpt-4o-mini")
+//                .modelName("gpt-4o-mini")
                 .modelName("gpt-4o")
                 .temperature(0.7)
                 .maxCompletionTokens(150)

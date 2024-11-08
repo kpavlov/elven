@@ -2,10 +2,8 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
-import ktx.async.isOnRenderingThread
 import ktx.async.newAsyncContext
 import ktx.async.onRenderingThread
 import me.kpavlov.elven.AudioManager
@@ -42,7 +40,6 @@ abstract class AiCharacter(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun ask(
         question: String,
         from: PlayerCharacter,
@@ -50,13 +47,13 @@ abstract class AiCharacter(
     ) {
         val executor = newAsyncContext(10, "ai-thread")
         KtxAsync.launch(executor) {
-            println("Executor context. ${isOnRenderingThread()}")
+//            println("Executor context. ${isOnRenderingThread()}")
             val answer = aiStrategy.reply(question)
             onRenderingThread {
-                println("Main KTX context. ${isOnRenderingThread()}")
+//                println("Main KTX context. ${isOnRenderingThread()}")
                 callback(answer)
             }
-            println("Executor context. ${isOnRenderingThread()}")
+//            println("Executor context. ${isOnRenderingThread()}")
         }
     }
 

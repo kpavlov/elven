@@ -30,6 +30,7 @@ kotlin.compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.J
 
 dependencies {
   implementation libs.gdx.backend.lwjgl3
+  implementation libs.slf4j.simple
   implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
   implementation("com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop")
 

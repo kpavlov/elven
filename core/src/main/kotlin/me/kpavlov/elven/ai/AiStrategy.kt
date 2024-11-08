@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
 import ktx.log.logger
 import me.kpavlov.elven.ai.AiConnector.model
-import kotlin.io.path.Path
 
 private const val BASE_PATH = "../core/src/main/resources"
 
@@ -27,7 +26,7 @@ class AiStrategy(
 
     init {
         KtxAsync.launch {
-            val systemPromptFile = Gdx.files.classpath("ai/characters/$name/system-prompt.md")
+            val systemPromptFile = Gdx.files.internal("characters/$name/system-prompt.md")
             systemPrompt = systemPromptFile.readString()
 
             loadKnowledge(name)
@@ -47,16 +46,14 @@ class AiStrategy(
             .build()
 
     private fun loadKnowledge(name: String) {
-        val knowledgeDir = Gdx.files.classpath("ai/characters/$name/knowledge/")
-        if (!knowledgeDir.exists()) {
+        val knowledgeDir = Gdx.files.internal("characters/$name/knowledge/")
+        if (!knowledgeDir.exists() || !knowledgeDir.isDirectory) {
             return
         }
 
         // load documents
-        val fsPath = Path(BASE_PATH, knowledgeDir.path())
-        val fsAbsolutePath = fsPath.toAbsolutePath()
         val textDocumentParser = TextDocumentParser()
-        val documents = FileSystemDocumentLoader.loadDocuments(fsAbsolutePath, textDocumentParser)
+        val documents = FileSystemDocumentLoader.loadDocuments(knowledgeDir.path(), textDocumentParser)
         log.info { "Loaded documents: $documents" }
 
         // ingest documents
