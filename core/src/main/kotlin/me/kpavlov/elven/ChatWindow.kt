@@ -8,11 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea
 import com.badlogic.gdx.utils.Align
 import ktx.actors.onClick
 import ktx.actors.onKeyDown
+import ktx.actors.setKeyboardFocus
 import ktx.scene2d.KDialog
 import ktx.scene2d.KVerticalGroup
 import ktx.scene2d.actors
 import ktx.scene2d.dialog
 import ktx.scene2d.horizontalGroup
+import ktx.scene2d.image
 import ktx.scene2d.label
 import ktx.scene2d.scrollPane
 import ktx.scene2d.table
@@ -54,7 +56,7 @@ object ChatWindow {
                                 fadeScrollBars = false
                                 chatMessages =
                                     verticalGroup {
-                                        space(SPACING)
+//                                        space(SPACING)
                                     }
                             }.cell(grow = true, height = 250f)
                         row()
@@ -127,6 +129,7 @@ object ChatWindow {
         inputTextArea.text = ""
         dialog.titleLabel.setText("Chat with ${npc.name}")
         dialog.pack()
+        dialog.layout()
         dialog.show(stage)
         dialog.toFront()
         dialog.isVisible = true
@@ -144,11 +147,28 @@ object ChatWindow {
         actor: AbstractCharacter,
         text: String,
     ) {
-        chatMessages.horizontalGroup {
-            align(Align.topLeft)
-            label("${actor.name}: ")
-            label(insertLineBreaks(text))
-        }
+        val align =
+            if (actor is AiCharacter) {
+                Align.topLeft
+            } else {
+                Align.topRight
+            }
+        chatMessages
+            .verticalGroup {
+                align(align)
+                image(actor.avatar) {
+                    setAlign(align)
+                }
+                label(actor.name) {
+                    setAlignment(align)
+                }
+
+                label(insertLineBreaks(text)) {
+                    setAlignment(align)
+                }
+            }
+
+        chatMessages.pack()
 
         scrollPane.layout()
         scrollPane.scrollPercentY = 1.0f
@@ -158,11 +178,12 @@ object ChatWindow {
         dialog.pack()
 //        dialog.centerPosition()
         dialog.toFront()
+        inputTextArea.setKeyboardFocus(true)
     }
 
     fun insertLineBreaks(
         text: String,
-        maxLineLength: Int = 50,
+        maxLineLength: Int = 60,
     ): String {
         val words = text.split(" ") // Split text into words by spaces
         val result = StringBuilder()

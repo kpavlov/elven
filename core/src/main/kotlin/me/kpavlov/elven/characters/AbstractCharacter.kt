@@ -25,11 +25,15 @@ abstract class AbstractCharacter(
     val logger = Logger(name)
 
     private val texture = Texture("characters/$folderName/texture.png")
-    private val avatar =
+    val avatar =
         if (Gdx.files.internal("characters/$folderName/avatar.png").exists()) {
-            Texture("characters/$folderName/avatar.png")
+            Texture("characters/$folderName/avatar.png").apply {
+                setSize(12f, 12f)
+            }
         } else {
-            texture
+            Texture("characters/$folderName/texture.png").apply {
+                setSize(12f, 12f)
+            }
         }
     private val region = TextureRegion(texture)
 
