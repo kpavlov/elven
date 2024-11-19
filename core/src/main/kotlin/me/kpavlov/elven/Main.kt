@@ -134,8 +134,8 @@ class Main : ApplicationAdapter() {
         player.setPosition(730f, 280f)
         dwarf.setPosition(140f, 320f)
         crab.setPosition(250f, 300f)
-        orc.setPosition(500f, 300f)
-        artur.setPosition(550f, 350f)
+        orc.setPosition(450f, 280f)
+        artur.setPosition(530f, 390f)
 
         stage.actors {
             textArea(LIPSUM)
