@@ -6,7 +6,7 @@ kotlinx = "1.9.0"
 kotlinxDatetime = "0.6.1"
 ktor = "3.0.1"
 ktx = "1.12.1-rc2"
-langchain4j = "0.36.0"
+langchain4j = "0.36.1"
 langchain4jKotlin = "0.1.2"
 
 slf4j = "2.0.16"
@@ -48,7 +48,7 @@ langchain4j-easy-rag = { module = "dev.langchain4j:langchain4j-easy-rag", versio
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 [plugins]
-construo = { id = "io.github.fourlastor.construo", version = "1.5.0" }
+construo = { id = "io.github.fourlastor.construo", version = "1.5.1" }
 graalvm-native-plugin = { id = "org.graalvm.buildtools.native:org.graalvm.buildtools.native.gradle.plugin", version = "0.10.3" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
