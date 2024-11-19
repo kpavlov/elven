@@ -19,6 +19,7 @@ dependencies {
     api(libs.langchain4j)
     api(libs.langchain4j.openai)
     api(libs.langchain4j.easy.rag)
+    api(libs.langchain4j.kotlin)
 
     if (enableGraalNative == "true") {
         implementation(libs.gdx.svmhelper.annotations)
