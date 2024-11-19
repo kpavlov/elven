@@ -14,8 +14,6 @@ import ktx.async.KtxAsync
 import ktx.log.logger
 import me.kpavlov.elven.ai.AiConnector.model
 
-private const val BASE_PATH = "../core/src/main/resources"
-
 class AiStrategy(
     name: String,
 ) {

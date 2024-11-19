@@ -23,6 +23,7 @@ import ktx.scene2d.actor
 import ktx.scene2d.actors
 import ktx.scene2d.textArea
 import me.kpavlov.elven.characters.AbstractCharacter
+import me.kpavlov.elven.characters.Artur
 import me.kpavlov.elven.characters.Crab
 import me.kpavlov.elven.characters.Dwarf
 import me.kpavlov.elven.characters.Orc
@@ -54,6 +55,7 @@ class Main : ApplicationAdapter() {
     private lateinit var player: Robin
     private lateinit var dwarf: Dwarf
     private lateinit var crab: Crab
+    private lateinit var artur: Artur
     private lateinit var orc: Orc
     private lateinit var viewport: Viewport
     private lateinit var touchPos: Vector2
@@ -120,8 +122,10 @@ class Main : ApplicationAdapter() {
         dwarf = Dwarf()
         orc = Orc()
         crab = Crab()
+        artur = Artur()
 
         allCharacters.add(orc)
+        allCharacters.add(artur)
 
         touchPos = Vector2()
 
@@ -131,6 +135,7 @@ class Main : ApplicationAdapter() {
         dwarf.setPosition(140f, 320f)
         crab.setPosition(250f, 300f)
         orc.setPosition(500f, 300f)
+        artur.setPosition(550f, 350f)
 
         stage.actors {
             textArea(LIPSUM)
@@ -142,6 +147,9 @@ class Main : ApplicationAdapter() {
             }
             actor(player) {
                 playerCharacters += player
+            }
+            actor(artur) {
+                allCharacters += artur
             }
             actor(dwarf) {
                 allCharacters += dwarf

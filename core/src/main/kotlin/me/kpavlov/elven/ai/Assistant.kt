@@ -1,5 +1,9 @@
 package me.kpavlov.elven.ai
 
+import dev.langchain4j.service.UserMessage
+
 interface Assistant {
-    fun chat(userMessage: String): String
+    fun chat(
+        @UserMessage userMessage: String,
+    ): String
 }

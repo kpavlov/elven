@@ -4,7 +4,7 @@ import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import me.kpavlov.langchain4j.MockChatLanguageModel
 
-private const val TEST = true
+private const val TEST = false
 
 object AiConnector {
     val model: ChatLanguageModel =
@@ -15,7 +15,7 @@ object AiConnector {
                 .OpenAiChatModelBuilder()
 //                .modelName("gpt-4o-mini")
                 .modelName("gpt-4o")
-                .temperature(0.7)
+                .temperature(0.5)
                 .maxCompletionTokens(150)
                 .apiKey(OPENAI_API_KEY)
                 .build()

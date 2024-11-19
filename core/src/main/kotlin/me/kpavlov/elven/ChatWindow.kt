@@ -76,11 +76,11 @@ object ChatWindow {
                         horizontalGroup {
                             space(SPACING)
 
-                            textButton("Уйти") {
+                            textButton("Leave") {
                                 onClick { leaveChat() }
                             }.pad(PAD_SIZE)
 
-                            textButton("Сказать") {
+                            textButton("Say") {
                                 onClick { handleInputMessage() }
                                 align(Align.right)
                             }.pad(PAD_SIZE)
