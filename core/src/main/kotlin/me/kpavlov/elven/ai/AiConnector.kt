@@ -4,7 +4,7 @@ import dev.langchain4j.model.chat.ChatLanguageModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import me.kpavlov.langchain4j.MockChatLanguageModel
 
-private const val TEST = true
+private const val TEST = false
 
 object AiConnector {
     val model: ChatLanguageModel =

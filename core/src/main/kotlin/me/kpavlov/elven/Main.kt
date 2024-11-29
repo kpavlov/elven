@@ -21,7 +21,6 @@ import ktx.assets.async.AssetStorage
 import ktx.async.KtxAsync
 import ktx.scene2d.actor
 import ktx.scene2d.actors
-import ktx.scene2d.textArea
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.Artur
 import me.kpavlov.elven.characters.Crab
@@ -138,21 +137,23 @@ class Main : ApplicationAdapter() {
         artur.setPosition(530f, 390f)
 
         stage.actors {
-            textArea(LIPSUM)
             actor(orc) {
                 allCharacters += orc
             }
+            /*
             actor(crab) {
                 allCharacters += crab
             }
-            actor(player) {
-                playerCharacters += player
-            }
+
             actor(artur) {
                 allCharacters += artur
             }
             actor(dwarf) {
                 allCharacters += dwarf
+            }
+             */
+            actor(player) {
+                playerCharacters += player
             }
         }
         constrainCameraToMap()
