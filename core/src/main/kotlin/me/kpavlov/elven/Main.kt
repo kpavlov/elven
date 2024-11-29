@@ -2,7 +2,6 @@ package me.kpavlov.elven
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -13,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.viewport.FillViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import ktx.actors.stage
@@ -33,22 +31,11 @@ private val input = Gdx.input
 
 private const val DEBUG = false
 
-private val LIPSUM =
-    """Но далеко-далеко за словесными горами
-                    |в стране гласных и согласных живут рыбные тексты.
-                    |Вдали от всех живут они в буквенных домах на берегу Семантика
-                    |большого языкового океана.
-                    |Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    |sed do eiusmod tempor incididunt
-                    |ut labore et dolore magna aliqua.
-    """.trimMargin()
-
 /**
  * [com.badlogic.gdx.ApplicationListener] implementation shared by all
  * platforms.
  */
 class Main : ApplicationAdapter() {
-    private lateinit var assetManager: AssetManager
     private lateinit var assetStorage: AssetStorage
     private lateinit var batch: Batch
     private lateinit var player: Robin
@@ -59,7 +46,6 @@ class Main : ApplicationAdapter() {
     private lateinit var viewport: Viewport
     private lateinit var touchPos: Vector2
     private lateinit var map: TiledMap
-    private lateinit var skin: Skin
     private var mapWidth: Float = -1f
     private var mapHeight: Float = -1f
     private lateinit var settingsScreen: SettingsScreen
@@ -128,7 +114,7 @@ class Main : ApplicationAdapter() {
 
         touchPos = Vector2()
 
-//        cameraController.actor = elf
+//        cameraController.actor = player
 
         player.setPosition(730f, 280f)
         dwarf.setPosition(140f, 320f)

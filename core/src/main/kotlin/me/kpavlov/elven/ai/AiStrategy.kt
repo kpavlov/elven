@@ -1,6 +1,7 @@
 package me.kpavlov.elven.ai
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.files.FileHandle
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader
 import dev.langchain4j.data.document.parser.TextDocumentParser
 import dev.langchain4j.data.segment.TextSegment
@@ -27,6 +28,7 @@ class AiStrategy(
             val systemPromptFile = Gdx.files.internal("characters/$name/system-prompt.md")
             systemPrompt = systemPromptFile.readString()
 
+            loadWorldKnowledge()
             loadKnowledge(name)
 
             assistant = createAssistant()
@@ -43,8 +45,17 @@ class AiStrategy(
             .contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
             .build()
 
+    private fun loadWorldKnowledge() {
+        val knowledgeDir = Gdx.files.internal("knowledge/")
+        loadDocumentsFrom(knowledgeDir)
+    }
+
     private fun loadKnowledge(name: String) {
         val knowledgeDir = Gdx.files.internal("characters/$name/knowledge/")
+        loadDocumentsFrom(knowledgeDir)
+    }
+
+    private fun loadDocumentsFrom(knowledgeDir: FileHandle) {
         if (!knowledgeDir.exists() || !knowledgeDir.isDirectory) {
             return
         }
