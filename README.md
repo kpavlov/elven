@@ -1,4 +1,4 @@
-#  Elven Quest: The Mage’s Call
+#  AI RPG Demo
 
 [![Java CI with Gradle](https://github.com/kpavlov/elven/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/kpavlov/elven/actions/workflows/gradle.yml)
 
@@ -21,8 +21,8 @@ It runs on desktop platform using LWJGL3/Kotlin/Langchain4J
 
 This project uses [Gradle](https://gradle.org/) to manage dependencies.
 
-Run it with:
+Run it under JDK 22+ with:
 
 ```shell
-gradle run
+./gradlew run
 ```
