@@ -1,5 +1,5 @@
 [versions]
-gdx = "1.13.0"
+gdx = "1.13.1"
 graalHelper = "2.0.1"
 kotlin = "2.1.0"
 kotlinx = "1.9.0"
