@@ -115,21 +115,27 @@ abstract class PlayerCharacter(
     }
 
     private fun onMeetAiCharacter(other: AiCharacter) {
+        if (!other.isVisible) {
+            return
+        }
+        if (other.stage != this.stage) {
+            return
+        }
         ChatWindow.startDialog(this, other)
         ChatWindow.say(this, greeting)
         other.onMeetPlayer(this)
     }
 
     private fun onLeaveAiCharacter(other: AiCharacter) {
-        val bye = "Bye, ${other.name}"
+        "Bye, ${other.name}"
         // other.ask(from = this, question = bye)
     }
 
     private fun lookAtMe() {
-        val local3 = Vector3(x, y, 0f)
+        Vector3(x, y, 0f)
         val local2 = Vector2(x, y)
         val screen2 = localToScreenCoordinates(local2)
-        val screen3 = Vector3(screen2.x, screen2.y, 0f)
+        Vector3(screen2.x, screen2.y, 0f)
 //        lookAt(stage.stageToScreenCoordinates(Vector2(x, y)))
 //        logger.info { "Look at $screen3" }
 //        stage.camera.lookAt(screen3)

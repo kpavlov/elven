@@ -58,9 +58,7 @@ abstract class AiCharacter(
     }
 
     fun onMeetPlayer(player: PlayerCharacter) {
-        if (sound != null) {
-            AudioManager.playSound(sound)
-        }
+        sound?.apply(AudioManager::playSound)
     }
 
     override fun dispose() {
