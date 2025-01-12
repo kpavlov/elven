@@ -7,7 +7,7 @@ kotlinxDatetime = "0.6.1"
 ktor = "3.0.3"
 ktx = "1.12.1-rc2"
 langchain4j = "0.36.2"
-langchain4jKotlin = "0.1.4"
+langchain4jKotlin = "0.1.5"
 
 slf4j = "2.0.16"
 
