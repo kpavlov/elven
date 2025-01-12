@@ -48,7 +48,7 @@ langchain4j-easy-rag = { module = "dev.langchain4j:langchain4j-easy-rag", versio
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 [plugins]
-construo = { id = "io.github.fourlastor.construo", version = "1.5.1" }
+construo = { id = "io.github.fourlastor.construo", version = "1.6.0" }
 graalvm-native-plugin = { id = "org.graalvm.buildtools.native:org.graalvm.buildtools.native.gradle.plugin", version = "0.10.4" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

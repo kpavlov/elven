@@ -10,7 +10,7 @@ buildscript {
   }
 }
 plugins {
-  id "io.github.fourlastor.construo" version "1.5.1"
+  id "io.github.fourlastor.construo" version "1.6.0"
   id "application"
 }
 apply plugin: 'org.jetbrains.kotlin.jvm'
