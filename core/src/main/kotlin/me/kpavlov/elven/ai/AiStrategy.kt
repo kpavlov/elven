@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader
 import dev.langchain4j.data.document.parser.TextDocumentParser
 import dev.langchain4j.data.segment.TextSegment
+import dev.langchain4j.memory.ChatMemory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever
 import dev.langchain4j.service.AiServices
@@ -22,6 +23,7 @@ class AiStrategy(
     private val log = logger<AiStrategy>()
     private val embeddingStore = InMemoryEmbeddingStore<TextSegment>()
     private lateinit var assistant: Assistant
+    private lateinit var chatMemory: ChatMemory
 
     init {
         KtxAsync.launch {
@@ -31,6 +33,12 @@ class AiStrategy(
             loadWorldKnowledge()
             loadKnowledge(name)
 
+            chatMemory =
+                MessageWindowChatMemory
+                    .builder()
+                    .id(name)
+                    .maxMessages(20)
+                    .build()
             assistant = createAssistant()
         }
     }
@@ -41,8 +49,9 @@ class AiStrategy(
             .chatLanguageModel(model)
             .systemMessageProvider {
                 systemPrompt
-            }.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
-            .contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
+            }.chatMemory(
+                chatMemory,
+            ).contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
             .build()
 
     private fun loadWorldKnowledge() {
