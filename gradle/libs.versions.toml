@@ -1,7 +1,7 @@
 [versions]
 gdx = "1.13.1"
 graalHelper = "2.0.1"
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 kotlinx = "1.10.1"
 kotlinxDatetime = "0.6.1"
 ktor = "3.0.3"
