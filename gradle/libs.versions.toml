@@ -9,7 +9,7 @@ ktx = "1.12.1-rc2"
 langchain4j = "1.0.0-alpha1"
 langchain4jKotlin = "0.1.7"
 
-slf4j = "2.0.16"
+slf4j = "2.0.17"
 
 [libraries]
 gdx = { module = "com.badlogicgames.gdx:gdx", version.ref = "gdx" }
