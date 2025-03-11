@@ -4,12 +4,16 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import ktx.log.Logger
 import me.kpavlov.elven.ChatController
+import me.kpavlov.elven.GameConfig.AVATAR_SIZE
+import me.kpavlov.elven.GameConfig.CHARACTER_MOVE_DURATION
+import me.kpavlov.elven.MapUtils
 
 @Suppress("LongParameterList")
 abstract class AbstractCharacter(
@@ -22,19 +26,22 @@ abstract class AbstractCharacter(
     var speed: Number = 10,
     var run: Boolean = false,
 ) : Actor() {
+    // Reference to the game map, will be set by Main class
+    lateinit var gameMap: TiledMap
     val logger = Logger(name)
 
     private val texture = Texture("characters/$folderName/texture.png")
-    val avatar =
+    private val path =
         if (Gdx.files.internal("characters/$folderName/avatar.png").exists()) {
-            Texture("characters/$folderName/avatar.png").apply {
-                setSize(12f, 12f)
-            }
+            "characters/$folderName/avatar.png"
         } else {
-            Texture("characters/$folderName/texture.png").apply {
-                setSize(12f, 12f)
-            }
+            "characters/$folderName/texture.png"
         }
+    val avatar =
+        Texture(path).apply {
+            setSize(AVATAR_SIZE, AVATAR_SIZE)
+        }
+
     private val region = TextureRegion(texture)
 
     init {
@@ -85,19 +92,22 @@ abstract class AbstractCharacter(
     }
 
     fun moveWest() {
-        addAction(Actions.moveBy(-actualSpeed(), 0f, .5f))
+        addAction(Actions.moveBy(-actualSpeed(), 0f, CHARACTER_MOVE_DURATION))
     }
 
     fun moveEast() {
-        addAction(Actions.moveBy(actualSpeed(), 0f, .5f))
+        val newX = x + actualSpeed()
+        val isWater = MapUtils.isWaterTile(gameMap, newX, y)
+        println("isWater: $isWater")
+        addAction(Actions.moveBy(actualSpeed(), 0f, CHARACTER_MOVE_DURATION))
     }
 
     fun moveSouth() {
-        addAction(Actions.moveBy(0f, -actualSpeed(), .5f))
+        addAction(Actions.moveBy(0f, -actualSpeed(), CHARACTER_MOVE_DURATION))
     }
 
     fun moveNorth() {
-        addAction(Actions.moveBy(0f, actualSpeed(), .5f))
+        addAction(Actions.moveBy(0f, actualSpeed(), CHARACTER_MOVE_DURATION))
     }
 
     open fun dispose() {

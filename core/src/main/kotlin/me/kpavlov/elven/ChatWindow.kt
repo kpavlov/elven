@@ -21,6 +21,8 @@ import ktx.scene2d.table
 import ktx.scene2d.textArea
 import ktx.scene2d.textButton
 import ktx.scene2d.verticalGroup
+import me.kpavlov.elven.GameConfig.CHAT_WINDOW_WIDTH
+import me.kpavlov.elven.ai.ChatMessage
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.AiCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
@@ -85,7 +87,7 @@ object ChatWindow {
                                 align(Align.right)
                             }.pad(PAD_SIZE)
                         }.pad(PAD_SIZE)
-                    }.cell(grow = false, maxWidth = 1000f, maxHeight = 400f, minWidth = 600f)
+                    }.cell(grow = false, maxWidth = 1000f, maxHeight = 400f, minWidth = CHAT_WINDOW_WIDTH)
                 }
         }
     }
@@ -128,6 +130,9 @@ object ChatWindow {
         chatMessages.clearChildren()
         inputTextArea.text = ""
         dialog.titleLabel.setText("Chat with ${npc.name}")
+        npc.chatHistoryWithPlayer(player).forEach {
+            addMessage(it)
+        }
         dialog.pack()
         dialog.layout()
         dialog.show(stage)
@@ -142,6 +147,12 @@ object ChatWindow {
         inputTextArea.text = text
         handleInputMessage()
     }
+
+    private fun addMessage(chatMessage: ChatMessage) =
+        addMessage(
+            actor = chatMessage.from,
+            text = chatMessage.text,
+        )
 
     private fun addMessage(
         actor: AbstractCharacter,
@@ -158,6 +169,9 @@ object ChatWindow {
                 align(align)
                 image(actor.avatar) {
                     setAlign(align)
+                    // Or only fix the height; the width adjusts proportionally if using a scaling mode:
+                    setScaling(com.badlogic.gdx.utils.Scaling.fit)
+                    setScale(0.5f)
                 }
                 label(actor.name) {
                     setAlignment(align)

@@ -122,7 +122,11 @@ abstract class PlayerCharacter(
             return
         }
         ChatWindow.startDialog(this, other)
-        ChatWindow.say(this, greeting)
+        if (other.chatHistoryWithPlayer(this).isEmpty()) {
+            ChatWindow.say(this, greeting)
+        } else {
+            ChatWindow.say(this, "Hi, Again!")
+        }
         other.onMeetPlayer(this)
     }
 

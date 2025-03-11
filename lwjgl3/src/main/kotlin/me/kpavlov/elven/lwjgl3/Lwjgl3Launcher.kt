@@ -2,7 +2,9 @@ package me.kpavlov.elven.lwjgl3
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
+import io.github.cdimascio.dotenv.dotenv
 import me.kpavlov.elven.Main
+import me.kpavlov.elven.utils.Secrets
 
 /** Launches the desktop (LWJGL3) application.  */
 object Lwjgl3Launcher {
@@ -10,7 +12,20 @@ object Lwjgl3Launcher {
     fun main(args: Array<String>) {
         if (StartupHelper.startNewJvmIfRequired()) return // This handles macOS support and helps on Windows.
 
+        loadEnvironment()
         createApplication()
+    }
+
+    private fun loadEnvironment() {
+        val dotenv =
+            dotenv {
+                directory = "../"
+            }
+        requireNotNull(dotenv["OPENAI_API_KEY"], {
+            "OPENAI_API_KEY environment variable must be set in .env file or as an environment variable."
+        }).let {
+            Secrets.put("OPENAI_API_KEY", it)
+        }
     }
 
     private fun createApplication(): Lwjgl3Application = Lwjgl3Application(Main(), defaultConfiguration)
@@ -19,6 +34,7 @@ object Lwjgl3Launcher {
         get() {
             val configuration = Lwjgl3ApplicationConfiguration()
             configuration.setTitle("Elven")
+            configuration.setPauseWhenMinimized(true)
             // // Vsync limits the frames per second to what your hardware can display, and helps eliminate
             // // screen tearing. This setting doesn't always work on Linux, so the line after is a safeguard.
             configuration.useVsync(true)

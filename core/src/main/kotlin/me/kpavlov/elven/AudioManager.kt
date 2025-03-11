@@ -12,7 +12,7 @@ object AudioManager {
     var soundsOn: Boolean = true
 
     init {
-        music.volume = 0.3f // sets the volume to half the maximum volume
+        music.volume = GameConfig.Audio.MUSIC_VOLUME // sets the volume to half the maximum volume
         music.isLooping = true
     }
 
@@ -36,6 +36,6 @@ object AudioManager {
         if (!soundsOn) {
             return
         }
-        sound?.play(1f)
+        sound?.play(GameConfig.Audio.SOUND_VOLUME)
     }
 }

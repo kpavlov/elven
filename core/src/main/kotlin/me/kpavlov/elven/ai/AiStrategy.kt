@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader
 import dev.langchain4j.data.document.parser.TextDocumentParser
+import dev.langchain4j.data.message.AiMessage
+import dev.langchain4j.data.message.TextContent
+import dev.langchain4j.data.message.UserMessage
 import dev.langchain4j.data.segment.TextSegment
 import dev.langchain4j.memory.ChatMemory
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
@@ -15,15 +18,18 @@ import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
 import ktx.log.logger
 import me.kpavlov.elven.ai.AiConnector.model
+import me.kpavlov.elven.characters.AiCharacter
+import me.kpavlov.elven.characters.PlayerCharacter
 
 class AiStrategy(
-    name: String,
+    val character: AiCharacter,
 ) {
     private lateinit var systemPrompt: String
     private val log = logger<AiStrategy>()
     private val embeddingStore = InMemoryEmbeddingStore<TextSegment>()
     private lateinit var assistant: Assistant
     private lateinit var chatMemory: ChatMemory
+    private val name = character.name
 
     init {
         KtxAsync.launch {
@@ -80,4 +86,30 @@ class AiStrategy(
     }
 
     fun reply(question: String): String = assistant.chat(question)
+
+    fun getChatHistory(withPlayer: PlayerCharacter): List<ChatMessage> =
+        chatMemory
+            .messages()
+            .map {
+                return@map when (it) {
+                    is AiMessage -> {
+                        ChatMessage(from = character, text = it.text())
+                    }
+
+                    is UserMessage -> {
+                        val textContent = it.contents().firstOrNull() as TextContent?
+                        textContent?.text()?.let { text ->
+                            val userMessage =
+                                text.substringBefore(
+                                    "\n\nAnswer using the following information:\n",
+                                )
+                            ChatMessage(from = withPlayer, text = userMessage)
+                        }
+                    }
+
+                    else -> {
+                        null
+                    }
+                }
+            }.filterNotNull()
 }

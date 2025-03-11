@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import ktx.actors.stage
 import ktx.assets.async.AssetStorage
 import ktx.async.KtxAsync
+import ktx.scene2d.StageWidget
 import ktx.scene2d.actor
 import ktx.scene2d.actors
 import me.kpavlov.elven.characters.AbstractCharacter
@@ -78,7 +79,7 @@ class Main : ApplicationAdapter() {
 //        map = TmxMapLoader().load("scenes/grass_and_water/isometric_grass_and_water.tmx")
 //        mapRenderer = IsometricTiledMapRenderer(map)
 
-        map = TmxMapLoader().load("terrains/island.tmx")
+        map = TmxMapLoader().load(GameConfig.MAP_FILE)
         val tileWidth = map.properties["tilewidth", Int::class.java]
         mapWidth = map.properties["width", Int::class.java].toFloat() * tileWidth
         val tileHeight = map.properties["tileheight", Int::class.java]
@@ -109,9 +110,6 @@ class Main : ApplicationAdapter() {
         crab = Crab()
         artur = Artur()
 
-        allCharacters.add(orc)
-        allCharacters.add(artur)
-
         touchPos = Vector2()
 
 //        cameraController.actor = player
@@ -123,9 +121,8 @@ class Main : ApplicationAdapter() {
         artur.setPosition(530f, 390f)
 
         stage.actors {
-            actor(orc) {
-                allCharacters += orc
-            }
+            addCharacter(orc, collection = allCharacters)
+
             /*
             actor(crab) {
                 allCharacters += crab
@@ -138,11 +135,19 @@ class Main : ApplicationAdapter() {
                 allCharacters += dwarf
             }
              */
-            actor(player) {
-                playerCharacters += player
-            }
+            addCharacter(player, collection = playerCharacters)
         }
         constrainCameraToMap()
+    }
+
+    private fun <T : AbstractCharacter> StageWidget.addCharacter(
+        character: T,
+        collection: MutableCollection<T>,
+    ) {
+        this.actor(character) {
+            character.gameMap = map
+            collection += character
+        }
     }
 
     override fun resize(
