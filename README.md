@@ -16,8 +16,15 @@ It runs on desktop platform using LWJGL3/Kotlin/Langchain4J
 - `core`: Main module with the application logic shared by all platforms.
 - `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
 
-## Gradle
+## Prerequisites
 
+Create `.env` file with your OpenAI API key:
+
+```dotenv
+OPENAI_API_KEY=sk-proj-...
+```
+
+## Gradle
 
 This project uses [Gradle](https://gradle.org/) to manage dependencies.
 
