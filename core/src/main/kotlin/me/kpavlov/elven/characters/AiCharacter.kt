@@ -8,11 +8,12 @@ import ktx.async.newAsyncContext
 import ktx.async.onRenderingThread
 import me.kpavlov.elven.AudioManager
 import me.kpavlov.elven.ai.AiStrategy
+import me.kpavlov.elven.ai.ChatMessage
 
 @Suppress("LongParameterList")
 abstract class AiCharacter(
     name: String,
-    private val folderName: String = name,
+    folderName: String = name,
     x: Float = 0f,
     y: Float = 0f,
     width: Int,
@@ -29,7 +30,7 @@ abstract class AiCharacter(
         speed = speed,
         run = run,
     ) {
-    private val aiStrategy = AiStrategy(name)
+    private val aiStrategy = AiStrategy(this)
     private var sound: Sound? = null
 
     init {
@@ -56,6 +57,8 @@ abstract class AiCharacter(
 //            println("Executor context. ${isOnRenderingThread()}")
         }
     }
+
+    fun chatHistoryWithPlayer(player: PlayerCharacter): List<ChatMessage> = aiStrategy.getChatHistory(player)
 
     fun onMeetPlayer(player: PlayerCharacter) {
         sound?.apply(AudioManager::playSound)
