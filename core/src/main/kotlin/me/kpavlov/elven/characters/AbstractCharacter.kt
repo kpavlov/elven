@@ -25,6 +25,7 @@ abstract class AbstractCharacter(
     height: Int = 64,
     var speed: Number = 10,
     var run: Boolean = false,
+    var coins: Int = 0,
 ) : Actor() {
     // Reference to the game map, will be set by Main class
     lateinit var gameMap: TiledMap
@@ -115,8 +116,7 @@ abstract class AbstractCharacter(
     }
 
     protected fun sayHey() {
-//        addAction(Actions.)
-        val greeting = "Привет, я $name"
+        val greeting = "Hi, I am $name. I have $coins coins 🤑"
         ChatController.say(this@AbstractCharacter, greeting)
         logger.info { greeting }
     }

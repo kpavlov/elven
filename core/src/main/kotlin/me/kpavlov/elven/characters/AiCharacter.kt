@@ -10,6 +10,8 @@ import me.kpavlov.elven.AudioManager
 import me.kpavlov.elven.ai.AiStrategy
 import me.kpavlov.elven.ai.ChatMessage
 
+private val executor = newAsyncContext(10, "ai-thread")
+
 @Suppress("LongParameterList")
 abstract class AiCharacter(
     name: String,
@@ -20,6 +22,7 @@ abstract class AiCharacter(
     height: Int,
     speed: Number = 10,
     run: Boolean = false,
+    coins: Int = 0,
 ) : AbstractCharacter(
         name = name,
         folderName = folderName,
@@ -29,6 +32,7 @@ abstract class AiCharacter(
         height = height,
         speed = speed,
         run = run,
+        coins = coins,
     ) {
     private val aiStrategy = AiStrategy(this)
     private var sound: Sound? = null
@@ -46,15 +50,20 @@ abstract class AiCharacter(
         from: PlayerCharacter,
         callback: (String) -> Unit,
     ) {
-        val executor = newAsyncContext(10, "ai-thread")
         KtxAsync.launch(executor) {
-//            println("Executor context. ${isOnRenderingThread()}")
-            val answer = aiStrategy.reply(question)
+            val reply =
+                aiStrategy.reply(
+                    aiCharacter = this@AiCharacter,
+                    player = from,
+                    question = question,
+                )
             onRenderingThread {
-//                println("Main KTX context. ${isOnRenderingThread()}")
-                callback(answer)
+                if (reply.coins > 0) {
+                    from.coins += reply.coins
+                    coins -= reply.coins
+                }
+                callback(reply.text)
             }
-//            println("Executor context. ${isOnRenderingThread()}")
         }
     }
 

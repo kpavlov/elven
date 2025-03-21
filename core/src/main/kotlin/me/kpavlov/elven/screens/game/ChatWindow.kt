@@ -1,4 +1,4 @@
-package me.kpavlov.elven
+package me.kpavlov.elven.screens.game
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
@@ -22,13 +22,12 @@ import ktx.scene2d.textArea
 import ktx.scene2d.textButton
 import ktx.scene2d.verticalGroup
 import me.kpavlov.elven.GameConfig.CHAT_WINDOW_WIDTH
+import me.kpavlov.elven.GameConfig.PAD_SIZE
+import me.kpavlov.elven.GameConfig.SPACING
 import me.kpavlov.elven.ai.ChatMessage
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.AiCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
-
-const val PAD_SIZE = 5f
-const val SPACING = 15f
 
 object ChatWindow {
     private lateinit var stage: Stage

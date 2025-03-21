@@ -17,9 +17,12 @@ object AiConnector {
             OpenAiChatModel
                 .OpenAiChatModelBuilder()
                 .modelName("gpt-4o-mini")
-                .temperature(0.5)
+                .temperature(0.7)
                 .maxCompletionTokens(100)
                 .apiKey(apiKey)
+                .logRequests(true)
+                .logResponses(true)
+                .strictJsonSchema(true)
                 .build()
         }
 }

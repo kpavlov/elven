@@ -8,9 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import me.kpavlov.elven.ChatWindow
 import me.kpavlov.elven.Controls
+import me.kpavlov.elven.screens.game.ChatWindow
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -28,6 +29,7 @@ abstract class PlayerCharacter(
     height: Int,
     speed: Number = 10,
     run: Boolean = false,
+    coins: Int = 0,
     val controls: Controls,
 ) : AbstractCharacter(
         name = name,
@@ -38,6 +40,7 @@ abstract class PlayerCharacter(
         height = height,
         speed = speed,
         run = run,
+        coins = coins,
     ) {
     private var meetingWith: AiCharacter? = null
 
@@ -54,16 +57,16 @@ abstract class PlayerCharacter(
                 "Hello, my name is $name. How are you doing?"
             }
 //        addListener(HitListener())
-//        addListener(
-//            object : ChangeListener() {
-//                override fun changed(
-//                    event: ChangeEvent,
-//                    actor: Actor,
-//                ) {
-//                    // TODO("Not yet implemented")
-//                }
-//            },
-//        )
+        addListener(
+            object : ChangeListener() {
+                override fun changed(
+                    event: ChangeEvent,
+                    actor: Actor,
+                ) {
+                    println("Actor: ${actor.name} - changed $event")
+                }
+            },
+        )
     }
 
     fun reactOnControls(input: Input) {
