@@ -18,8 +18,8 @@ class PlayerPanel(
         stage.actors {
             table {
                 defaults().pad(PAD_SIZE)
-                add(label("Player: ${player.name}"))
-            }.setPosition(80f, 10f)
+                add(label("Coins: ${player.coins}"))
+            }.setPosition(80f, 500f)
         }
     }
 }

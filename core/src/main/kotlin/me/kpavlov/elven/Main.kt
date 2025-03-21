@@ -26,7 +26,6 @@ import me.kpavlov.elven.characters.Orc
 import me.kpavlov.elven.characters.PlayerCharacter
 import me.kpavlov.elven.characters.Robin
 import me.kpavlov.elven.screens.game.ChatWindow
-import me.kpavlov.elven.screens.game.PlayerPanel
 import me.kpavlov.elven.screens.game.SettingsPanel
 
 private val input = Gdx.input
@@ -108,7 +107,7 @@ class Main : ApplicationAdapter() {
 
         touchPos = Vector2()
 
-        PlayerPanel(stage, player = player)
+//        PlayerPanel(stage, player = player)
 
 //        cameraController.actor = player
 
@@ -124,9 +123,6 @@ class Main : ApplicationAdapter() {
 
             /*
 
-            actor(artur) {
-                allCharacters += artur
-            }
             actor(dwarf) {
                 allCharacters += dwarf
             }
