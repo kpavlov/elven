@@ -96,7 +96,10 @@ abstract class AbstractCharacter(
     }
 
     fun moveEast() {
-        // MapUtils.isWaterTile(gameMap, x + actualSpeed(), y)
+        // Check if gameMap is initialized before using it
+        // if (::gameMap.isInitialized) {
+        //     MapUtils.isWaterTile(gameMap, x + actualSpeed(), y)
+        // }
         addAction(Actions.moveBy(actualSpeed(), 0f, CHARACTER_MOVE_DURATION))
     }
 
@@ -110,6 +113,7 @@ abstract class AbstractCharacter(
 
     open fun dispose() {
         texture.dispose()
+        avatar.dispose()
     }
 
     protected fun sayHey() {

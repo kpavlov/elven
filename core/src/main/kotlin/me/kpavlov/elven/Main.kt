@@ -175,16 +175,18 @@ class Main : ApplicationAdapter() {
 
         // Update camera and set the view for the map renderer
         camera.update()
+
+        // Ensure camera stays within map boundaries
+        constrainCameraToMap()
+
         mapRenderer.setView(camera)
 
-        // Render the isometric map
+        // Render the map
         mapRenderer.render()
 
         // Update and render the stage
         stage.act(Gdx.graphics.deltaTime)
         stage.draw()
-
-//        constrainCameraToMap()
     }
 
     override fun pause() {

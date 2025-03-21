@@ -76,7 +76,7 @@ abstract class AiCharacter(
     }
 
     override fun dispose() {
-        super.remove()
+        super.dispose()
         sound?.dispose()
     }
 }

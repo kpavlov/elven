@@ -85,6 +85,6 @@ object ChatController {
     }
 
     fun hideChatWindow() {
-        chatWindow.isVisible = true
+        chatWindow.isVisible = false
     }
 }

@@ -23,6 +23,8 @@ import me.kpavlov.elven.ai.AiConnector.model
 import me.kpavlov.elven.characters.AiCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
 
+private const val CHAT_MEMORY_WINDOW_SIZE = 100
+
 class AiStrategy(
     val character: AiCharacter,
 ) {
@@ -39,7 +41,7 @@ class AiStrategy(
             MessageWindowChatMemory
                 .builder()
                 .id(memoryId)
-                .maxMessages(100)
+                .maxMessages(CHAT_MEMORY_WINDOW_SIZE)
                 .chatMemoryStore(chatMemoryStore)
                 .build()
         }

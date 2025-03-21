@@ -2,8 +2,6 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
@@ -134,18 +132,13 @@ abstract class PlayerCharacter(
     }
 
     private fun onLeaveAiCharacter(other: AiCharacter) {
-        "Bye, ${other.name}"
-        // other.ask(from = this, question = bye)
+        // Placeholder for future implementation
+        // Example: other.ask(from = this, question = "Bye, ${other.name}")
     }
 
     private fun lookAtMe() {
-        Vector3(x, y, 0f)
-        val local2 = Vector2(x, y)
-        val screen2 = localToScreenCoordinates(local2)
-        Vector3(screen2.x, screen2.y, 0f)
-//        lookAt(stage.stageToScreenCoordinates(Vector2(x, y)))
-//        logger.info { "Look at $screen3" }
-//        stage.camera.lookAt(screen3)
+        // Placeholder for camera focusing functionality
+        // This method will be implemented in the future to make the camera follow the player
     }
 
     private inner class PlayerInputListener : ClickListener() {
