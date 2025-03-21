@@ -13,6 +13,7 @@ import dev.langchain4j.memory.chat.ChatMemoryProvider
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever
 import dev.langchain4j.service.AiServices
+import dev.langchain4j.service.ModerationException
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
 import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
 import ktx.log.logger
 import me.kpavlov.elven.ai.AiConnector.model
+import me.kpavlov.elven.ai.AiConnector.moderationModel
 import me.kpavlov.elven.characters.AiCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
 
@@ -61,6 +63,7 @@ class AiStrategy(
     private fun createAssistant(): Assistant =
         AiServices
             .builder(Assistant::class.java)
+            .moderationModel(moderationModel)
             .chatLanguageModel(model)
             .systemMessageProvider {
                 systemPrompt
@@ -99,14 +102,22 @@ class AiStrategy(
         player: PlayerCharacter,
         question: String,
     ): Reply {
-        val aiReply =
-            assistant.chat(
-                playerName = player.name,
-                userMessage = question,
-                coins = aiCharacter.coins,
+        try {
+            val aiReply =
+                assistant.chat(
+                    playerName = player.name,
+                    userMessage = question,
+                    coins = aiCharacter.coins,
+                )
+            log.info { "LLM replied with ${aiReply.coins} coins 🤑 and text:\n${aiReply.text}" }
+            return aiReply
+        } catch (e: ModerationException) {
+            log.info(e) { "Content policy violation: $question" }
+            return Reply(
+                text = "Your message \"$question\" violates Content Policy. You will be punished!",
+                coins = -50,
             )
-        log.info { "LLM replied with ${aiReply.coins} coins 🤑 and text:\n${aiReply.text}" }
-        return aiReply
+        }
     }
 
     fun getChatHistory(withPlayer: PlayerCharacter): List<ChatMessage> =

@@ -1,13 +1,19 @@
 package me.kpavlov.elven.ai
 
 import dev.langchain4j.model.chat.ChatLanguageModel
+import dev.langchain4j.model.moderation.ModerationModel
 import dev.langchain4j.model.openai.OpenAiChatModel
+import dev.langchain4j.model.openai.OpenAiModerationModel
 import me.kpavlov.elven.utils.Secrets
 import me.kpavlov.langchain4j.MockChatLanguageModel
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.toJavaDuration
 
 private const val TEST = false
 
 object AiConnector {
+    private val timeout = 7.seconds.toJavaDuration()
+
     private val logger = ktx.log.logger<AiConnector>()
 
     val model: ChatLanguageModel by lazy {
@@ -28,12 +34,32 @@ object AiConnector {
                     .logRequests(true)
                     .logResponses(true)
                     .strictJsonSchema(true)
+                    .timeout(timeout)
                     .build()
             }
         } catch (e: Exception) {
-            logger.error(e) { "Failed to initialize AI model: ${e.message}" }
+            logger.error(e) { "Failed to initialize ChatLanguageModel: ${e.message}" }
             // Fallback to mock model in case of initialization failure
             MockChatLanguageModel()
+        }
+    }
+
+    val moderationModel: ModerationModel by lazy {
+        try {
+            val apiKey = Secrets.get("OPENAI_API_KEY")
+            requireNotNull(apiKey) { "OPENAI_API_KEY must be set" }
+            logger.info { "Initializing OpenAI model" }
+            OpenAiModerationModel
+                .builder()
+                .modelName("omni-moderation-latest")
+                .apiKey(apiKey)
+                .logRequests(true)
+                .logResponses(true)
+                .timeout(timeout)
+                .build()
+        } catch (e: Exception) {
+            logger.error(e) { "Failed to initialize ModerationModel: ${e.message}" }
+            throw e
         }
     }
 }

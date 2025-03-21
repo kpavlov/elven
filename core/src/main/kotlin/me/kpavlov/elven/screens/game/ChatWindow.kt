@@ -256,7 +256,7 @@ object ChatWindow {
             align(align)
 
             // Add avatar and name using the avatar component
-            avatarComponent.addTo(this)
+            avatarComponent.addTo(this, align)
 
             // Message text with improved styling
             label(insertLineBreaks(text, 50)) {

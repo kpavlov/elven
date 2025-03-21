@@ -21,8 +21,13 @@ class AvatarComponent(
 ) {
     private val isNpc = actor is AiCharacter
 
-    fun <S> addTo(group: KWidget<S>) {
+    fun <S> addTo(
+        group: KWidget<S>,
+        align: Int? = null) {
         group.verticalGroup {
+            // Apply alignment if provided
+            align?.let { this.align(it) }
+
             image(actor.avatar) {
                 setScaling(com.badlogic.gdx.utils.Scaling.fit)
                 setScale(0.7f) // Slightly larger avatar
@@ -31,6 +36,8 @@ class AvatarComponent(
                 // Set color based on sender
                 color = if (isNpc) npcMessageColor else playerMessageColor
                 setFontScale(1.1f) // Slightly larger font for name
+                // Apply alignment to the label if provided
+                align?.let { setAlignment(it) }
             }
         }
     }
