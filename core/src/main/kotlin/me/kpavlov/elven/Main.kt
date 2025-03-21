@@ -21,12 +21,13 @@ import ktx.scene2d.StageWidget
 import ktx.scene2d.actor
 import ktx.scene2d.actors
 import me.kpavlov.elven.characters.AbstractCharacter
-import me.kpavlov.elven.characters.Artur
 import me.kpavlov.elven.characters.Crab
-import me.kpavlov.elven.characters.Dwarf
 import me.kpavlov.elven.characters.Orc
 import me.kpavlov.elven.characters.PlayerCharacter
 import me.kpavlov.elven.characters.Robin
+import me.kpavlov.elven.screens.game.ChatWindow
+import me.kpavlov.elven.screens.game.PlayerPanel
+import me.kpavlov.elven.screens.game.SettingsPanel
 
 private val input = Gdx.input
 
@@ -39,17 +40,12 @@ private const val DEBUG = false
 class Main : ApplicationAdapter() {
     private lateinit var assetStorage: AssetStorage
     private lateinit var batch: Batch
-    private lateinit var player: Robin
-    private lateinit var dwarf: Dwarf
-    private lateinit var crab: Crab
-    private lateinit var artur: Artur
-    private lateinit var orc: Orc
     private lateinit var viewport: Viewport
     private lateinit var touchPos: Vector2
     private lateinit var map: TiledMap
     private var mapWidth: Float = -1f
     private var mapHeight: Float = -1f
-    private lateinit var settingsScreen: SettingsScreen
+    private lateinit var settingsPanel: SettingsPanel
 
     private lateinit var camera: OrthographicCamera
     private lateinit var cameraController: CameraController
@@ -90,7 +86,7 @@ class Main : ApplicationAdapter() {
         // Set up the Stage and UI
         stage = stage(viewport = FillViewport(mapWidth, mapHeight, camera))
 
-        settingsScreen = SettingsScreen(stage)
+        settingsPanel = SettingsPanel(stage)
 //        stage = stage(viewport = ScreenViewport(camera))
         Gdx.input.inputProcessor = stage // Make the stage receive input
         stage.isDebugAll = DEBUG
@@ -104,29 +100,29 @@ class Main : ApplicationAdapter() {
 
 //        positionCameraAtMapCenter(camera, map)
 
-        player = Robin()
-        dwarf = Dwarf()
-        orc = Orc()
-        crab = Crab()
-        artur = Artur()
+        val player = Robin()
+//        dwarf = Dwarf()
+        val orc = Orc()
+        val crab = Crab()
+//        artur = Artur()
 
         touchPos = Vector2()
+
+        PlayerPanel(stage, player = player)
 
 //        cameraController.actor = player
 
         player.setPosition(730f, 280f)
-        dwarf.setPosition(140f, 320f)
+//        dwarf.setPosition(140f, 320f)
         crab.setPosition(250f, 300f)
         orc.setPosition(450f, 280f)
-        artur.setPosition(530f, 390f)
+//        artur.setPosition(530f, 390f)
 
         stage.actors {
+            addCharacter(crab, collection = allCharacters)
             addCharacter(orc, collection = allCharacters)
 
             /*
-            actor(crab) {
-                allCharacters += crab
-            }
 
             actor(artur) {
                 allCharacters += artur
@@ -206,7 +202,8 @@ class Main : ApplicationAdapter() {
     }
 
     override fun dispose() {
-        player.dispose()
+        playerCharacters.forEach { it.dispose() }
+        allCharacters.forEach { it.dispose() }
         map.dispose()
         mapRenderer.dispose()
         stage.dispose()

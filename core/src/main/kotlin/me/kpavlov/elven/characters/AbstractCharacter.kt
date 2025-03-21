@@ -13,7 +13,6 @@ import ktx.log.Logger
 import me.kpavlov.elven.ChatController
 import me.kpavlov.elven.GameConfig.AVATAR_SIZE
 import me.kpavlov.elven.GameConfig.CHARACTER_MOVE_DURATION
-import me.kpavlov.elven.MapUtils
 
 @Suppress("LongParameterList")
 abstract class AbstractCharacter(
@@ -25,6 +24,7 @@ abstract class AbstractCharacter(
     height: Int = 64,
     var speed: Number = 10,
     var run: Boolean = false,
+    var coins: Int = 0,
 ) : Actor() {
     // Reference to the game map, will be set by Main class
     lateinit var gameMap: TiledMap
@@ -96,9 +96,7 @@ abstract class AbstractCharacter(
     }
 
     fun moveEast() {
-        val newX = x + actualSpeed()
-        val isWater = MapUtils.isWaterTile(gameMap, newX, y)
-        println("isWater: $isWater")
+        // MapUtils.isWaterTile(gameMap, x + actualSpeed(), y)
         addAction(Actions.moveBy(actualSpeed(), 0f, CHARACTER_MOVE_DURATION))
     }
 
@@ -115,8 +113,7 @@ abstract class AbstractCharacter(
     }
 
     protected fun sayHey() {
-//        addAction(Actions.)
-        val greeting = "Привет, я $name"
+        val greeting = "Hi, I am $name. I have $coins coins 🤑"
         ChatController.say(this@AbstractCharacter, greeting)
         logger.info { greeting }
     }

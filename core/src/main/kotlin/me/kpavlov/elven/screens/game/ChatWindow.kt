@@ -1,4 +1,4 @@
-package me.kpavlov.elven
+package me.kpavlov.elven.screens.game
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
@@ -22,13 +22,13 @@ import ktx.scene2d.textArea
 import ktx.scene2d.textButton
 import ktx.scene2d.verticalGroup
 import me.kpavlov.elven.GameConfig.CHAT_WINDOW_WIDTH
+import me.kpavlov.elven.GameConfig.PAD_SIZE
+import me.kpavlov.elven.GameConfig.SPACING
 import me.kpavlov.elven.ai.ChatMessage
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.AiCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
-
-const val PAD_SIZE = 5f
-const val SPACING = 15f
+import kotlin.math.abs
 
 object ChatWindow {
     private lateinit var stage: Stage
@@ -108,7 +108,7 @@ object ChatWindow {
 
                 currentNpc.ask(text, from = currentPlayer) {
                     if (dialog.isVisible) {
-                        addMessage(currentNpc, it)
+                        addMessage(currentNpc, it.text, it.coins)
                         inputTextArea.isDisabled = false
                     }
                 }
@@ -152,11 +152,13 @@ object ChatWindow {
         addMessage(
             actor = chatMessage.from,
             text = chatMessage.text,
+            coins = chatMessage.coins,
         )
 
     private fun addMessage(
         actor: AbstractCharacter,
         text: String,
+        coins: Int? = null,
     ) {
         val align =
             if (actor is AiCharacter) {
@@ -179,6 +181,14 @@ object ChatWindow {
 
                 label(insertLineBreaks(text)) {
                     setAlignment(align)
+                }
+
+                if (actor is AiCharacter && coins != null) {
+                    if (coins > 0) {
+                        label("${actor.name} gave you $coins coins") {}
+                    } else if (coins < 0) {
+                        label("${actor.name} took away ${abs(coins)} coins") {}
+                    }
                 }
             }
 

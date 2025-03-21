@@ -8,12 +8,14 @@ import dev.langchain4j.data.message.AiMessage
 import dev.langchain4j.data.message.TextContent
 import dev.langchain4j.data.message.UserMessage
 import dev.langchain4j.data.segment.TextSegment
-import dev.langchain4j.memory.ChatMemory
+import dev.langchain4j.internal.Json
+import dev.langchain4j.memory.chat.ChatMemoryProvider
 import dev.langchain4j.memory.chat.MessageWindowChatMemory
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever
 import dev.langchain4j.service.AiServices
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore
+import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
 import ktx.log.logger
@@ -28,8 +30,19 @@ class AiStrategy(
     private val log = logger<AiStrategy>()
     private val embeddingStore = InMemoryEmbeddingStore<TextSegment>()
     private lateinit var assistant: Assistant
-    private lateinit var chatMemory: ChatMemory
     private val name = character.name
+
+    val chatMemoryStore = InMemoryChatMemoryStore()
+
+    val chatMemoryProvider =
+        ChatMemoryProvider { memoryId ->
+            MessageWindowChatMemory
+                .builder()
+                .id(memoryId)
+                .maxMessages(50)
+                .chatMemoryStore(chatMemoryStore)
+                .build()
+        }
 
     init {
         KtxAsync.launch {
@@ -39,12 +52,6 @@ class AiStrategy(
             loadWorldKnowledge()
             loadKnowledge(name)
 
-            chatMemory =
-                MessageWindowChatMemory
-                    .builder()
-                    .id(name)
-                    .maxMessages(20)
-                    .build()
             assistant = createAssistant()
         }
     }
@@ -55,9 +62,9 @@ class AiStrategy(
             .chatLanguageModel(model)
             .systemMessageProvider {
                 systemPrompt
-            }.chatMemory(
-                chatMemory,
-            ).contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
+            }.chatMemoryProvider(chatMemoryProvider)
+            .contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
+            .tools(MathTools())
             .build()
 
     private fun loadWorldKnowledge() {
@@ -85,15 +92,31 @@ class AiStrategy(
         log.info { "Ingested ${documents.size} documents" }
     }
 
-    fun reply(question: String): String = assistant.chat(question)
+    fun reply(
+        aiCharacter: AiCharacter,
+        player: PlayerCharacter,
+        question: String,
+    ): Reply {
+        val aiReply =
+            assistant.chat(
+                playerName = player.name,
+                userMessage = question,
+                coins = aiCharacter.coins,
+            )
+        log.info { "LLM replied with ${aiReply.coins} coins 🤑 and text:\n${aiReply.text}" }
+        return aiReply
+    }
 
     fun getChatHistory(withPlayer: PlayerCharacter): List<ChatMessage> =
-        chatMemory
+        chatMemoryProvider
+            .get(withPlayer.name)
             .messages()
             .map {
                 return@map when (it) {
                     is AiMessage -> {
-                        ChatMessage(from = character, text = it.text())
+                        Json.fromJson<Reply>(it.text(), Reply::class.java)?.let {
+                            ChatMessage(from = character, text = it.text, coins = it.coins)
+                        }
                     }
 
                     is UserMessage -> {
@@ -103,7 +126,7 @@ class AiStrategy(
                                 text.substringBefore(
                                     "\n\nAnswer using the following information:\n",
                                 )
-                            ChatMessage(from = withPlayer, text = userMessage)
+                            ChatMessage(from = withPlayer, text = userMessage, coins = 0)
                         }
                     }
 

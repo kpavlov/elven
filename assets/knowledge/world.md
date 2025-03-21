@@ -1,12 +1,36 @@
-The Orcipelago is a tropical island chain where seafaring orcs have built a unique civilization. Unlike their aggressive
-mainland cousins, these orcs are skilled mariners and traders. Their gray-green skin naturally resists the equatorial
-sun, while their powerful builds make them excellent swimmers and divers.
+# TWILIGHT ARCHIPELAGO
 
-The islands feature black sand beaches, volcanic peaks, and dense jungles with giant mushroom trees. Orc settlements use
-local bamboo and volcanic stone, built to catch cooling sea breezes. Their society is organized into specialized tribes
-focusing on different skills like navigation, pearl diving, and shipbuilding. They travel between islands in outrigger
-canoes and have domesticated friendly sea serpents for fishing and transport.
+## Geography
 
-The volcanic soil supports terraced gardens of exotic fruits and root vegetables, while the crystal-clear lagoons house
-vibrant coral reefs where orcs tend underwater gardens. Rather than warfare, tribes compete through festivals of
-sailing, swimming, and feasting.
+Five volcanic islands forming a crescent shape in the Verdant Sea. Total area: 180 sq km. Climate: tropical with
+distinct wet/dry seasons.
+
+## Islands
+
+• **Ember Island**: Largest island with active volcano Mt. Kalor. Red sand beaches. Population center.
+• **Pearl Cove**: White limestone formations and underwater cave systems. Major pearl industry.
+• **Bubble Bay**: Coral reefs and tide pools. Notable marine biodiversity.
+• **Moss Island**: Dense jungle interior with ancient crystal formations. Home to oldest library.
+• **Mist Island**: Perpetually shrouded in fog. Site of annual ritual gatherings.
+
+## History
+
+• **Ancient Era** (3000-1500 BCE): First inhabited by Lumari seafarers who believed the islands formed one sleeping
+creature.
+• **Imperial Period** (800-1200 CE): Ruled by Queen Sira who built the crystal library on Moss Island.
+• **Trader Age** (1200-1700 CE): Major shipping route connecting eastern and western continents.
+• **Modern Era** (1700-present): Independent federation governed by representatives from each island.
+
+## Notable Inhabitants
+
+• **Zeph**: Wind spirit guardian of air currents between islands.
+• **Nix**: Fox-faced trader who operates the only inter-island ferry service.
+• **Mero**: Blue-skinned diver who discovered ancient underwater ruins.
+• **Vex**: Shadow archaeologist seeking forgotten knowledge.
+• **Sari**: Young islander with rare ability to communicate with coral formations.
+• **Lunn**: Keeper of the crystal library containing archipelago's complete history.
+
+## Cultural Significance
+
+The archipelago experiences unique phenomenon where all five volcanic peaks align with moonlight during solstice. Locals
+perform calming rituals believed to prevent the "great awakening."
