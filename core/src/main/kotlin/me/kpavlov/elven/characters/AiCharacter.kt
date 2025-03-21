@@ -24,6 +24,7 @@ abstract class AiCharacter(
     speed: Number = 10,
     run: Boolean = false,
     coins: Int = 0,
+    val tools: List<Any> = emptyList(),
 ) : AbstractCharacter(
         name = name,
         folderName = folderName,

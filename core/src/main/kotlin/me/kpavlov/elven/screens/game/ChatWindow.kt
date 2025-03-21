@@ -185,9 +185,9 @@ object ChatWindow {
 
                 if (actor is AiCharacter && coins != null) {
                     if (coins > 0) {
-                        label("${actor.name} gave you $coins coins") {}
+                        label("${actor.name} gave you $coins coin${if (coins > 1) "s" else ""}") {}
                     } else if (coins < 0) {
-                        label("${actor.name} took away ${abs(coins)} coins") {}
+                        label("${actor.name} took away ${abs(coins)} coin${if (coins < -1) "s" else ""}") {}
                     }
                 }
             }

@@ -39,7 +39,7 @@ class AiStrategy(
             MessageWindowChatMemory
                 .builder()
                 .id(memoryId)
-                .maxMessages(50)
+                .maxMessages(100)
                 .chatMemoryStore(chatMemoryStore)
                 .build()
         }
@@ -64,7 +64,7 @@ class AiStrategy(
                 systemPrompt
             }.chatMemoryProvider(chatMemoryProvider)
             .contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
-            .tools(MathTools())
+            .tools(character.tools)
             .build()
 
     private fun loadWorldKnowledge() {
@@ -114,8 +114,17 @@ class AiStrategy(
             .map {
                 return@map when (it) {
                     is AiMessage -> {
-                        Json.fromJson<Reply>(it.text(), Reply::class.java)?.let {
-                            ChatMessage(from = character, text = it.text, coins = it.coins)
+                        val text = it.text()
+                        if (text.isNullOrBlank()) {
+                            return@map null
+                        }
+                        try {
+                            Json.fromJson<Reply>(text, Reply::class.java)?.let {
+                                return@map ChatMessage(from = character, text = it.text, coins = it.coins)
+                            }
+                        } catch (_: Exception) {
+                            // can't deserialize
+                            return@map null
                         }
                     }
 
