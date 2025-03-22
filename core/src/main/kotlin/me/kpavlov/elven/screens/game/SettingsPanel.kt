@@ -54,7 +54,7 @@ class SettingsPanel(
                 defaults().pad(PAD_SIZE)
                 add(soundCheckBox)
                 add(musicCheckBox)
-            }.setPosition(80f, 120f)
+            }.setPosition(80f, 80f)
         }
     }
 }

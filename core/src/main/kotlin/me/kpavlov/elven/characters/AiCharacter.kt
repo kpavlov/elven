@@ -2,6 +2,7 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
 import ktx.async.newAsyncContext
@@ -47,7 +48,7 @@ abstract class AiCharacter(
         }
     }
 
-    fun ask(
+    open fun askTest(
         question: String,
         from: PlayerCharacter,
         onStart: (Reply) -> Unit,
@@ -55,6 +56,44 @@ abstract class AiCharacter(
         onCompleteResponse: (Reply) -> Unit = {},
     ) {
         onStart(Reply("..."))
+        val text =
+            """
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+            sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+            Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+            adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et
+            dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
+            ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
+            Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur,
+            vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+            """.trimIndent()
+
+        KtxAsync.launch {
+            text.split("\n\n").forEach {
+                delay(500)
+                onPartialResponse(it)
+            }
+            delay(1000)
+            onCompleteResponse(
+                Reply(
+                    text,
+                    coins = 5,
+                ),
+            )
+        }
+    }
+
+    open fun ask(
+        question: String,
+        from: PlayerCharacter,
+        onStart: (Reply) -> Unit,
+        onPartialResponse: (String) -> Unit = { },
+        onCompleteResponse: (Reply) -> Unit = {},
+    ) {
+        onStart(Reply("..."))
+
         if (streamingResponses) {
             aiStrategy.streamingReply(
                 aiCharacter = this@AiCharacter,
@@ -84,7 +123,7 @@ abstract class AiCharacter(
         }
     }
 
-    fun chatHistoryWithPlayer(player: PlayerCharacter): List<ChatMessage> = aiStrategy.getChatHistory(player)
+    open fun chatHistoryWithPlayer(player: PlayerCharacter): List<ChatMessage> = aiStrategy.getChatHistory(player)
 
     fun onMeetPlayer(player: PlayerCharacter) {
         sound?.apply(AudioManager::playSound)

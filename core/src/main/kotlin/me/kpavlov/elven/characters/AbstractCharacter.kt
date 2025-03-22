@@ -10,9 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import ktx.log.Logger
-import me.kpavlov.elven.ChatController
-import me.kpavlov.elven.GameConfig.AVATAR_SIZE
 import me.kpavlov.elven.GameConfig.CHARACTER_MOVE_DURATION
+import me.kpavlov.elven.screens.game.CharacterInfoPopup
 
 @Suppress("LongParameterList")
 abstract class AbstractCharacter(
@@ -37,15 +36,14 @@ abstract class AbstractCharacter(
         } else {
             "characters/$folderName/texture.png"
         }
-    val avatar =
-        Texture(path).apply {
-            setSize(AVATAR_SIZE, AVATAR_SIZE)
-        }
+    val avatar: TextureRegion
 
     private val region = TextureRegion(texture)
 
     init {
         this.name = name
+
+        avatar = TextureRegion(Texture(Gdx.files.internal(path)))
 
         setSize(width.toFloat(), height.toFloat())
         isVisible = true
@@ -113,12 +111,9 @@ abstract class AbstractCharacter(
 
     open fun dispose() {
         texture.dispose()
-        avatar.dispose()
     }
 
     protected fun sayHey() {
-        val greeting = "Hi, I am $name. I have $coins coins 🤑"
-        ChatController.say(this@AbstractCharacter, greeting)
-        logger.info { greeting }
+        CharacterInfoPopup.showInfo(this@AbstractCharacter)
     }
 }

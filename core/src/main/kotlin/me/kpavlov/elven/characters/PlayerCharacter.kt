@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import me.kpavlov.elven.Controls
-import me.kpavlov.elven.screens.game.ChatWindow
+import me.kpavlov.elven.screens.game.ChatDialog
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -122,11 +122,11 @@ abstract class PlayerCharacter(
         if (other.stage != this.stage) {
             return
         }
-        ChatWindow.startDialog(this, other)
+        ChatDialog.startDialog(this, other)
         if (other.chatHistoryWithPlayer(this).isEmpty()) {
-            ChatWindow.say(this, greeting)
+            ChatDialog.say(this, greeting)
         } else {
-            ChatWindow.say(this, "Hi, Again!")
+            ChatDialog.say(this, "Hi, Again!")
         }
         other.onMeetPlayer(this)
     }

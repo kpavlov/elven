@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.viewport.FillViewport
 import ktx.scene2d.StageWidget
 import ktx.scene2d.actor
 import ktx.scene2d.actors
-import me.kpavlov.elven.ChatController
 import me.kpavlov.elven.GameConfig
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
@@ -40,7 +39,6 @@ class GameScreen(
     private val map: TiledMap = TmxMapLoader().load(GameConfig.MAP_FILE)
 
     init {
-
         // Calculate map dimensions
         val tileWidth = map.properties["tilewidth", Int::class.java]
         mapWidth = map.properties["width", Int::class.java].toFloat() * tileWidth
@@ -56,8 +54,8 @@ class GameScreen(
 
         // Initialize UI components
         settingsPanel = SettingsPanel(stage)
-        ChatController.attachToStage(stage, font)
-        ChatWindow.attachToStage(stage)
+        CharacterInfoPopup.attachToStage(stage, font)
+        ChatDialog.attachToStage(stage)
     }
 
     /**

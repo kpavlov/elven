@@ -56,11 +56,11 @@ class Main : ApplicationAdapter() {
         // Position characters
         player.setPosition(730f, 280f)
         crab.setPosition(250f, 300f)
-        dwarf.setPosition(140f, 320f)
-        orc.setPosition(450f, 280f)
+        dwarf.setPosition(330f, 420f)
+        orc.setPosition(530f, 380f)
 
         // Add characters to game screen
-        gameScreen.addCharacters(listOf(player, orc, crab, dwarf))
+        gameScreen.addCharacters(listOf(orc, crab, dwarf, player))
 
         touchPos = Vector2()
     }

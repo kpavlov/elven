@@ -1,23 +1,21 @@
-package me.kpavlov.elven
+package me.kpavlov.elven.screens.game
 
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
-import ktx.scene2d.KDialog
+import ktx.actors.onKeyUp
 import ktx.scene2d.KVerticalGroup
 import ktx.scene2d.KWindow
 import ktx.scene2d.actors
-import ktx.scene2d.dialog
 import ktx.scene2d.image
 import ktx.scene2d.label
-import ktx.scene2d.textArea
 import ktx.scene2d.verticalGroup
 import ktx.scene2d.window
+import me.kpavlov.elven.characters.AbstractCharacter
 
-object ChatController {
+object CharacterInfoPopup {
     private lateinit var chatMessages: KVerticalGroup
     private lateinit var chatWindow: KWindow
-    private lateinit var chatDialog: KDialog
     private lateinit var font: BitmapFont
 
     private lateinit var stage: Stage
@@ -33,22 +31,6 @@ object ChatController {
 
     private fun initActors() {
         initChatWindow()
-        initDialog()
-    }
-
-    private fun initDialog() {
-        stage.actors {
-            chatDialog =
-                dialog(title = "Hee") {
-                    verticalGroup {
-                        textArea(text = "This is a text")
-                    }
-                    button("Cancel", "Cancel")
-                    button("OK", "OK")
-                }
-            chatDialog.isVisible = false
-            chatDialog.isModal = true
-        }
     }
 
     private fun initChatWindow() {
@@ -56,12 +38,16 @@ object ChatController {
             chatWindow =
                 window("Chat") {
                     image { }
-//                    scrollPane {
                     chatMessages = verticalGroup()
-//                    }
+                    onKeyUp { keyCode ->
+                        if (keyCode == Keys.ESCAPE) {
+                            isVisible = false
+                            true
+                        } else {
+                            false
+                        }
+                    }
                 }
-//            chatWindow.width = 300f
-//            chatWindow.height = 150f
             chatWindow.setKeepWithinStage(true)
             chatWindow.setPosition(
                 stage.width - chatWindow.width,
@@ -71,20 +57,20 @@ object ChatController {
         }
     }
 
-    fun say(
-        actor: Actor,
-        message: String,
-    ) {
+    fun showInfo(actor: AbstractCharacter) {
+        val greeting =
+            buildString {
+                append("I am ${actor.name}")
+                if (actor.coins > 0) {
+                    append(". I have ${actor.coins} coins 🤑")
+                }
+            }
         chatWindow.titleLabel.setText(actor.name)
         chatWindow.setPosition(actor.x + actor.width, actor.y + actor.height)
         chatMessages.clearChildren()
-        chatMessages.label(message)
+        chatMessages.label(greeting)
         chatWindow.pack()
         chatWindow.toFront()
         chatWindow.isVisible = true
-    }
-
-    fun hideChatWindow() {
-        chatWindow.isVisible = false
     }
 }
