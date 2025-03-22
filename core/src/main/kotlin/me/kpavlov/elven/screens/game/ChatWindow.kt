@@ -22,9 +22,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea
 import com.badlogic.gdx.utils.Align
+import kotlinx.coroutines.launch
 import ktx.actors.onClick
 import ktx.actors.onKeyDown
 import ktx.actors.setKeyboardFocus
+import ktx.async.KtxAsync
+import ktx.async.onRenderingThread
 import ktx.scene2d.KDialog
 import ktx.scene2d.KVerticalGroup
 import ktx.scene2d.actors
@@ -52,6 +55,7 @@ object ChatWindow {
     private lateinit var dialog: KDialog
     private lateinit var scrollPane: ScrollPane
     private lateinit var thinkingIndicator: Label
+    private var currentReplyTextLabel: Label? = null
     private lateinit var player: PlayerCharacter
     private lateinit var npc: AiCharacter
 
@@ -164,16 +168,46 @@ object ChatWindow {
                 thinkingIndicator.setText("${currentNpc.name} is thinking...")
                 thinkingIndicator.isVisible = true
 
-                currentNpc.ask(text, from = currentPlayer) {
-                    if (dialog.isVisible) {
-                        // Hide typing indicator
-                        thinkingIndicator.isVisible = false
+                currentNpc.ask(
+                    question = text,
+                    from = currentPlayer,
+                    onStart = {
+                        KtxAsync.launch {
+                            onRenderingThread {
+                                if (dialog.isVisible) {
+                                    // Hide typing indicator
+                                    thinkingIndicator.isVisible = true
+                                    addMessage(currentNpc, it.text, it.coins)
+                                    inputTextArea.isDisabled = true
+                                }
+                            }
+                        }
+                    },
+                    onPartialResponse = {
+                        KtxAsync.launch {
+                            onRenderingThread {
+                                if (dialog.isVisible) {
+                                    // Hide typing indicator
+                                    updateCurrentMessage(it, append = true)
+                                }
+                            }
+                        }
+                    },
+                    onCompleteResponse = {
+                        KtxAsync.launch {
+                            onRenderingThread {
+                                if (dialog.isVisible) {
+                                    // Hide typing indicator
+                                    thinkingIndicator.isVisible = false
 
-                        addMessage(currentNpc, it.text, it.coins)
-                        inputTextArea.isDisabled = false
-                        inputTextArea.setKeyboardFocus(true)
-                    }
-                }
+                                    updateCurrentMessage(it.text, coins = it.coins, append = false)
+                                    inputTextArea.isDisabled = false
+                                    inputTextArea.setKeyboardFocus(true)
+                                }
+                            }
+                        }
+                    },
+                )
             }
         }
     }
@@ -227,16 +261,9 @@ object ChatWindow {
         handleInputMessage()
     }
 
-    private fun addMessage(chatMessage: ChatMessage) =
-        addMessage(
-            actor = chatMessage.from,
-            text = chatMessage.text,
-            coins = chatMessage.coins,
-        )
-
-    private fun addMessage(
+    fun createChatMessage(
         actor: AbstractCharacter,
-        text: String,
+        string: String,
         coins: Int? = null,
     ) {
         val isNpc = actor is AiCharacter
@@ -247,8 +274,6 @@ object ChatWindow {
             AvatarComponent(
                 actor = actor,
             )
-
-        // Add message with improved styling
         chatMessages.verticalGroup {
             // Add more space between messages
             space(SPACING * 1.5f)
@@ -259,10 +284,11 @@ object ChatWindow {
             avatarComponent.addTo(this, align)
 
             // Message text with improved styling
-            label(insertLineBreaks(text, 50)) {
-                // Shorter line length for better readability
-                setAlignment(align)
-            }
+            currentReplyTextLabel =
+                label(insertLineBreaks(string, 50)) {
+                    // Shorter line length for better readability
+                    setAlignment(align)
+                }
 
             // Coins information with improved styling
             if (isNpc && coins != null) {
@@ -277,6 +303,39 @@ object ChatWindow {
                 }
             }
         }
+    }
+
+    private fun addMessage(chatMessage: ChatMessage) =
+        addMessage(
+            actor = chatMessage.from,
+            text = chatMessage.text,
+            coins = chatMessage.coins,
+        )
+
+    private fun updateCurrentMessage(
+        text: String,
+        coins: Int? = null,
+        append: Boolean,
+    ) {
+        currentReplyTextLabel?.let {
+//            KtxAsync.ensureOnRenderingThread {
+            val newText =
+                if (append) {
+                    it.text.append(text).toString()
+                } else {
+                    text
+                }
+            it.setText(insertLineBreaks(newText))
+//            }
+        }
+    }
+
+    private fun addMessage(
+        actor: AbstractCharacter,
+        text: String,
+        coins: Int? = null,
+    ) {
+        createChatMessage(actor, text, coins)
 
         // Update layout and scroll to bottom
         chatMessages.pack()

@@ -5,7 +5,6 @@ import com.badlogic.gdx.audio.Sound
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
 import ktx.async.newAsyncContext
-import ktx.async.onRenderingThread
 import me.kpavlov.elven.AudioManager
 import me.kpavlov.elven.ai.AiStrategy
 import me.kpavlov.elven.ai.ChatMessage
@@ -24,6 +23,7 @@ abstract class AiCharacter(
     speed: Number = 10,
     run: Boolean = false,
     coins: Int = 0,
+    val streamingResponses: Boolean = false,
     val tools: List<Any> = emptyList(),
 ) : AbstractCharacter(
         name = name,
@@ -50,21 +50,36 @@ abstract class AiCharacter(
     fun ask(
         question: String,
         from: PlayerCharacter,
-        callback: (Reply) -> Unit,
+        onStart: (Reply) -> Unit,
+        onPartialResponse: (String) -> Unit = { },
+        onCompleteResponse: (Reply) -> Unit = {},
     ) {
-        KtxAsync.launch(executor) {
-            val reply =
-                aiStrategy.reply(
-                    aiCharacter = this@AiCharacter,
-                    player = from,
-                    question = question,
-                )
-            onRenderingThread {
+        onStart(Reply("..."))
+        if (streamingResponses) {
+            aiStrategy.streamingReply(
+                aiCharacter = this@AiCharacter,
+                player = from,
+                question = question,
+                onPartialResponse = { partial ->
+                    onPartialResponse(partial)
+                },
+                onCompleteResponse = { reply ->
+                    onCompleteResponse(reply)
+                },
+            )
+        } else {
+            KtxAsync.launch(executor) {
+                val reply =
+                    aiStrategy.reply(
+                        aiCharacter = this@AiCharacter,
+                        player = from,
+                        question = question,
+                    )
                 if (reply.coins > 0) {
                     from.coins += reply.coins
                     coins -= reply.coins
                 }
-                callback(reply)
+                onCompleteResponse(reply)
             }
         }
     }

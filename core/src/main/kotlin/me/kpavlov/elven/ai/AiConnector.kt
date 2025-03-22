@@ -1,9 +1,11 @@
 package me.kpavlov.elven.ai
 
 import dev.langchain4j.model.chat.ChatLanguageModel
+import dev.langchain4j.model.chat.StreamingChatLanguageModel
 import dev.langchain4j.model.moderation.ModerationModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiModerationModel
+import dev.langchain4j.model.openai.OpenAiStreamingChatModel
 import me.kpavlov.elven.utils.Secrets
 import me.kpavlov.langchain4j.MockChatLanguageModel
 import kotlin.time.Duration.Companion.seconds
@@ -13,8 +15,15 @@ private const val TEST = false
 
 object AiConnector {
     private val timeout = 7.seconds.toJavaDuration()
+    private const val MAX_TOKENS = 500
+    private const val TEMPERATURE = 0.7
+    private const val MODEL_NAME = "gpt-4o-mini"
+    private const val MODERATION_MODEL_NAME = "omni-moderation-latest"
+    private const val LOG_REQUESTS_RESPONSES = true
 
     private val logger = ktx.log.logger<AiConnector>()
+
+    private val apiKey = requireNotNull(Secrets.get("OPENAI_API_KEY")) { "OPENAI_API_KEY must be set" }
 
     val model: ChatLanguageModel by lazy {
         try {
@@ -22,39 +31,54 @@ object AiConnector {
                 logger.info { "Using mock AI model for testing" }
                 MockChatLanguageModel()
             } else {
-                val apiKey = Secrets.get("OPENAI_API_KEY")
-                requireNotNull(apiKey) { "OPENAI_API_KEY must be set" }
-                logger.info { "Initializing OpenAI model" }
+
                 OpenAiChatModel
-                    .OpenAiChatModelBuilder()
-                    .modelName("gpt-4o-mini")
-                    .temperature(0.7)
-                    .maxCompletionTokens(250)
+                    .builder()
+                    .modelName(MODEL_NAME)
+                    .temperature(TEMPERATURE)
+                    .maxCompletionTokens(MAX_TOKENS)
                     .apiKey(apiKey)
-                    .logRequests(true)
-                    .logResponses(true)
+                    .logRequests(LOG_REQUESTS_RESPONSES)
+                    .logResponses(LOG_REQUESTS_RESPONSES)
+                    .responseFormat("json_schema")
                     .strictJsonSchema(true)
                     .timeout(timeout)
                     .build()
             }
         } catch (e: Exception) {
             logger.error(e) { "Failed to initialize ChatLanguageModel: ${e.message}" }
+            throw e
+        }
+    }
+
+    val streamingModel: StreamingChatLanguageModel by lazy {
+        try {
+            OpenAiStreamingChatModel
+                .builder()
+                .modelName(MODEL_NAME)
+                .temperature(0.7)
+                .apiKey(apiKey)
+                .logRequests(LOG_REQUESTS_RESPONSES)
+                .logResponses(LOG_REQUESTS_RESPONSES)
+                .strictJsonSchema(true)
+                .responseFormat("json_schema")
+                .timeout(timeout)
+                .build()
+        } catch (e: Exception) {
+            logger.error(e) { "Failed to initialize ChatLanguageModel: ${e.message}" }
             // Fallback to mock model in case of initialization failure
-            MockChatLanguageModel()
+            throw e
         }
     }
 
     val moderationModel: ModerationModel by lazy {
         try {
-            val apiKey = Secrets.get("OPENAI_API_KEY")
-            requireNotNull(apiKey) { "OPENAI_API_KEY must be set" }
-            logger.info { "Initializing OpenAI model" }
             OpenAiModerationModel
                 .builder()
-                .modelName("omni-moderation-latest")
+                .modelName(MODERATION_MODEL_NAME)
                 .apiKey(apiKey)
-                .logRequests(true)
-                .logResponses(true)
+                .logRequests(LOG_REQUESTS_RESPONSES)
+                .logResponses(LOG_REQUESTS_RESPONSES)
                 .timeout(timeout)
                 .build()
         } catch (e: Exception) {

@@ -6,4 +6,5 @@ class Dwarf :
         speed = 1,
         width = 50,
         height = 50,
+        streamingResponses = true,
     )
