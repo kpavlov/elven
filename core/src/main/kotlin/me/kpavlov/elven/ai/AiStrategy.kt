@@ -53,18 +53,28 @@ class AiStrategy(
     private fun createAssistant(
         character: AiCharacter,
         systemPrompt: String,
-    ): Assistant =
-        AiServices
-            .builder(Assistant::class.java)
-            .streamingChatLanguageModel(streamingModel)
-            .moderationModel(moderationModel)
-            .chatLanguageModel(model)
-            .systemMessageProvider {
-                systemPrompt
-            }.chatMemoryProvider(memory.chatMemoryProvider)
-            .contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
-            .tools(character.tools)
-            .build()
+    ): Assistant {
+        val builder =
+            AiServices
+                .builder(Assistant::class.java)
+                .streamingChatLanguageModel(streamingModel)
+                .moderationModel(moderationModel)
+                .chatLanguageModel(model)
+                .systemMessageProvider {
+                    systemPrompt
+                }.chatMemoryProvider(memory.chatMemoryProvider)
+                .contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
+
+        character.toolProvider?.let {
+            log.info { "Using tool provider: ${it.javaClass.name}" }
+            builder.toolProvider(it)
+        }
+        character.tools?.let {
+            log.info { "Using tools: ${it.joinToString(", ")}" }
+            builder.tools(it)
+        }
+        return builder.build()
+    }
 
     private suspend fun loadWorldKnowledge() {
         val knowledgeDir = Gdx.files.internal("knowledge/")

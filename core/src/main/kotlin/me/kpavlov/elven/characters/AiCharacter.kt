@@ -2,6 +2,7 @@ package me.kpavlov.elven.characters
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
+import dev.langchain4j.service.tool.ToolProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ktx.async.KtxAsync
@@ -25,7 +26,8 @@ abstract class AiCharacter(
     run: Boolean = false,
     coins: Int = 0,
     val streamingResponses: Boolean = false,
-    val tools: List<Any> = emptyList(),
+    val toolProvider: ToolProvider? = null,
+    val tools: List<Any>? = null,
 ) : AbstractCharacter(
         name = name,
         folderName = folderName,

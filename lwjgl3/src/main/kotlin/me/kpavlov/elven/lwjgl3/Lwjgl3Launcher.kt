@@ -21,11 +21,14 @@ object Lwjgl3Launcher {
             dotenv {
                 directory = "../"
             }
-        requireNotNull(dotenv["OPENAI_API_KEY"], {
-            "OPENAI_API_KEY environment variable must be set in .env file or as an environment variable."
-        }).let {
-            Secrets.put("OPENAI_API_KEY", it)
+        dotenv.entries().forEach {
+            Secrets.put(it.key, it.value)
         }
+//        requireNotNull(dotenv["OPENAI_API_KEY"], {
+//            "OPENAI_API_KEY environment variable must be set in .env file or as an environment variable."
+//        }).let {
+//            Secrets.put("OPENAI_API_KEY", it)
+//        }
     }
 
     private fun createApplication(): Lwjgl3Application = Lwjgl3Application(Main(), defaultConfiguration)

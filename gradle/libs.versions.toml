@@ -46,6 +46,7 @@ ktx-scene2d = { module = "io.github.libktx:ktx-scene2d", version.ref = "ktx" }
 langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
 langchain4j-openai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
 langchain4j-easy-rag = { module = "dev.langchain4j:langchain4j-easy-rag", version.ref = "langchain4j" }
+langchain4j-mcp = { module = "dev.langchain4j:langchain4j-mcp", version.ref = "langchain4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "detenvKotlin" }
 

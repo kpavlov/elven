@@ -14,8 +14,8 @@ import kotlin.time.toJavaDuration
 private const val TEST = false
 
 object AiConnector {
-    private val timeout = 7.seconds.toJavaDuration()
-    private const val MAX_TOKENS = 500
+    private val timeout = 15.seconds.toJavaDuration()
+    private const val MAX_TOKENS = 1500
     private const val TEMPERATURE = 0.7
     private const val MODEL_NAME = "gpt-4o-mini"
     private const val MODERATION_MODEL_NAME = "omni-moderation-latest"

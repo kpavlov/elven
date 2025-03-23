@@ -2,9 +2,14 @@
 
 [![Java CI with Gradle](https://github.com/kpavlov/elven/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/kpavlov/elven/actions/workflows/gradle.yml)
 
+- Map Overview:
 ![screenshot-1.png](docs/screenshot-1.png)
-
-![screenshot.png](docs/screenshot-2.png)
+- Structured Response (JSON Schema):
+  ![screenshot-2.png](docs/screenshot-2.png)
+- Google Maps API MCP Server:
+  ![screenshot-3.png](docs/screenshot-3.png)
+- Moderation Model in Action:
+  ![screenshot-4.png](docs/screenshot-4.png)
 
 ---
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
@@ -49,10 +54,14 @@ creating an interactive and dynamic gaming experience.
 
 ## Prerequisites
 
-Create `.env` file with your OpenAI API key:
+Create `.env` file with your API keys:
+
+- OpenAI API (required)
+- Google Maps API key (optional)
 
 ```dotenv
 OPENAI_API_KEY=sk-proj-...
+GOOGLE_MAPS_API_KEY=...
 ```
 
 ## Gradle
