@@ -51,6 +51,6 @@ dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "d
 
 [plugins]
 construo = { id = "io.github.fourlastor.construo", version = "1.6.0" }
-graalvm-native-plugin = { id = "org.graalvm.buildtools.native:org.graalvm.buildtools.native.gradle.plugin", version = "0.10.4" }
+graalvm-native-plugin = { id = "org.graalvm.buildtools.native:org.graalvm.buildtools.native.gradle.plugin", version = "0.10.6" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
