@@ -56,12 +56,13 @@ object AiConnector {
             OpenAiStreamingChatModel
                 .builder()
                 .modelName(MODEL_NAME)
-                .temperature(0.7)
+                .temperature(0.5)
                 .apiKey(apiKey)
+                .maxCompletionTokens(MAX_TOKENS)
                 .logRequests(LOG_REQUESTS_RESPONSES)
                 .logResponses(LOG_REQUESTS_RESPONSES)
-                .strictJsonSchema(true)
                 .responseFormat("json_schema")
+                .strictJsonSchema(true)
                 .timeout(timeout)
                 .build()
         } catch (e: Exception) {

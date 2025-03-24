@@ -64,6 +64,9 @@ OPENAI_API_KEY=sk-proj-...
 GOOGLE_MAPS_API_KEY=...
 ```
 
+You need Docker environment to be available for MCP requests.
+**Make sure Docker is running!**
+
 ## Gradle
 
 This project uses [Gradle](https://gradle.org/) to manage dependencies.
