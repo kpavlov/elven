@@ -8,7 +8,7 @@
 ** [anthropic.com/engineering/building-effective-agents](https://www.anthropic.com/engineering/building-effective-agents)
 
 Reference
-implamentations: [https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents](https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents)
+implementations: [https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents](https://github.com/anthropics/anthropic-cookbook/tree/main/patterns/agents)
 
 ### LangChain4j / Quarkus
 
