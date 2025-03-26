@@ -23,7 +23,7 @@ abstract class AbstractCharacter(
     height: Int = 64,
     var speed: Number = 10,
     var run: Boolean = false,
-    var coins: Int = 0,
+    var coins: Int? = null,
 ) : Actor() {
     // Reference to the game map, will be set by Main class
     lateinit var gameMap: TiledMap

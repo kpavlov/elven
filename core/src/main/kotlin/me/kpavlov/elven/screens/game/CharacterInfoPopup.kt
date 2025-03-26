@@ -61,7 +61,7 @@ object CharacterInfoPopup {
         val greeting =
             buildString {
                 append("I am ${actor.name}")
-                if (actor.coins > 0) {
+                if (actor.coins != null && actor.coins!! > 0) {
                     append(". I have ${actor.coins} coins 🤑")
                 }
             }

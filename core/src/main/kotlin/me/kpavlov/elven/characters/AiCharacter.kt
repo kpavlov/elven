@@ -89,7 +89,7 @@ abstract class AiCharacter(
 
     open fun ask(
         question: String,
-        from: PlayerCharacter,
+        player: PlayerCharacter,
         onStart: (Reply) -> Unit,
         onPartialResponse: (String) -> Unit = { },
         onCompleteResponse: (Reply) -> Unit = {},
@@ -99,7 +99,7 @@ abstract class AiCharacter(
         if (streamingResponses) {
             aiStrategy.streamingReply(
                 aiCharacter = this@AiCharacter,
-                player = from,
+                player = player,
                 question = question,
                 onPartialResponse = { partial ->
                     onPartialResponse(partial)
@@ -113,13 +113,15 @@ abstract class AiCharacter(
                 val reply =
                     aiStrategy.reply(
                         aiCharacter = this@AiCharacter,
-                        player = from,
+                        player = player,
                         question = question,
                     )
-                if (reply.coins > 0) {
-                    from.coins += reply.coins
-                    coins -= reply.coins
+
+                if (coins != null && reply.coins > 0) {
+                    player.coins = player.coins?.plus(reply.coins)
+                    coins = coins?.minus(reply.coins)
                 }
+
                 onCompleteResponse(reply)
             }
         }

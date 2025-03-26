@@ -114,7 +114,6 @@ class AiStrategy(
             .streamChat(
                 playerName = player.name,
                 userMessage = question,
-                coins = aiCharacter.coins,
             ).onPartialResponse {
                 // log.debug { "Partial: $it" }
                 onPartialResponse.invoke(it)
@@ -136,11 +135,16 @@ class AiStrategy(
         question: String,
     ): Reply {
         try {
+            val userMessage =
+                if (aiCharacter.coins != null) {
+                    "You have ${aiCharacter.coins} coins. Reply to: ```$question```"
+                } else {
+                    question
+                }
             val aiReply =
                 assistant.chat(
                     playerName = player.name,
-                    userMessage = question,
-                    coins = aiCharacter.coins,
+                    userMessage = userMessage,
                 )
             log.info { "${aiCharacter.name} AI replied with ${aiReply.coins} coins 🤑 and text:\n${aiReply.text}" }
             return aiReply

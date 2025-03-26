@@ -156,7 +156,7 @@ object ChatDialog {
 
         npc.ask(
             question = text,
-            from = player,
+            player = player,
             onStart = { reply ->
                 updateOnRenderingThread {
                     addMessage(npc, reply.text, reply.coins)
