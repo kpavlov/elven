@@ -2,7 +2,7 @@
 gdx = "1.13.1"
 graalHelper = "2.0.1"
 kotlin = "2.1.20"
-kotlinx = "1.10.1"
+kotlinx = "1.10.2"
 kotlinxDatetime = "0.6.2"
 ktor = "3.1.2"
 ktx = "1.13.1-rc1"
