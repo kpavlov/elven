@@ -12,6 +12,7 @@ dependencies {
     api(libs.ktx.app)
     api(libs.ktx.assets.async)
     api(libs.ktx.freetype.async)
+    implementation(project.dependencies.platform(libs.langchain4j.bom))
     api(libs.ktx.log)
     api(libs.ktx.style)
     api(libs.gdx.tools)

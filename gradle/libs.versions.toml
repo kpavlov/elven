@@ -1,4 +1,5 @@
 [versions]
+detenvKotlin = "6.5.1"
 gdx = "1.13.1"
 graalHelper = "2.0.1"
 kotlin = "2.1.20"
@@ -6,21 +7,18 @@ kotlinx = "1.10.2"
 kotlinxDatetime = "0.6.2"
 ktor = "3.1.2"
 ktx = "1.13.1-rc1"
-langchain4j = "1.0.0-beta3"
-langchain4jKotlin = "0.1.8"
-detenvKotlin = "6.5.1"
-
+langchain4j = "1.0.0-beta4"
+#langchain4jKotlin = "0.1.12"
 slf4j = "2.0.17"
 
 [libraries]
 gdx = { module = "com.badlogicgames.gdx:gdx", version.ref = "gdx" }
-gdx-backend-lwjgl3 = { module = "com.badlogicgames.gdx:gdx-backend-lwjgl3", version.ref="gdx"}
+gdx-backend-lwjgl3 = { module = "com.badlogicgames.gdx:gdx-backend-lwjgl3", version.ref = "gdx" }
 gdx-tools = { module = "com.badlogicgames.gdx:gdx-tools", version.ref = "gdx" }
 gdx-svmhelper-annotations = { module = "io.github.berstanio:gdx-svmhelper-annotations", version.ref = "graalHelper" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-langchain4j-kotlin = { module = "me.kpavlov.langchain4j.kotlin:langchain4j-kotlin", version.ref = "langchain4jKotlin" }
-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+#langchain4j-kotlin = { module = "me.kpavlov.langchain4j.kotlin:langchain4j-kotlin", version.ref = "langchain4jKotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx" }
@@ -43,12 +41,15 @@ ktx-app = { module = "io.github.libktx:ktx-app", version.ref = "ktx" }
 ktx-style = { module = "io.github.libktx:ktx-style", version.ref = "ktx" }
 ktx-log = { module = "io.github.libktx:ktx-log", version.ref = "ktx" }
 ktx-scene2d = { module = "io.github.libktx:ktx-scene2d", version.ref = "ktx" }
-langchain4j = { module = "dev.langchain4j:langchain4j", version.ref = "langchain4j" }
-langchain4j-openai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
+langchain4j = { module = "dev.langchain4j:langchain4j" }
 langchain4j-easy-rag = { module = "dev.langchain4j:langchain4j-easy-rag", version.ref = "langchain4j" }
 langchain4j-mcp = { module = "dev.langchain4j:langchain4j-mcp", version.ref = "langchain4j" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "detenvKotlin" }
+langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
+langchain4j-kotlin = { group = "dev.langchain4j", name = "langchain4j-kotlin" }
+langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version = "1.0.0-rc1" }
 
 [plugins]
 construo = { id = "io.github.fourlastor.construo", version = "1.7.1" }
