@@ -1,7 +1,7 @@
 package me.kpavlov.elven.ai
 
-import dev.langchain4j.model.chat.ChatLanguageModel
-import dev.langchain4j.model.chat.StreamingChatLanguageModel
+import dev.langchain4j.model.chat.ChatModel
+import dev.langchain4j.model.chat.StreamingChatModel
 import dev.langchain4j.model.moderation.ModerationModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import dev.langchain4j.model.openai.OpenAiModerationModel
@@ -25,13 +25,12 @@ object AiConnector {
 
     private val apiKey = requireNotNull(Secrets.get("OPENAI_API_KEY")) { "OPENAI_API_KEY must be set" }
 
-    val model: ChatLanguageModel by lazy {
+    val model: ChatModel by lazy {
         try {
             if (TEST) {
                 logger.info { "Using mock AI model for testing" }
                 MockChatLanguageModel()
             } else {
-
                 OpenAiChatModel
                     .builder()
                     .modelName(MODEL_NAME)
@@ -51,7 +50,7 @@ object AiConnector {
         }
     }
 
-    val streamingModel: StreamingChatLanguageModel by lazy {
+    val streamingModel: StreamingChatModel by lazy {
         try {
             OpenAiStreamingChatModel
                 .builder()

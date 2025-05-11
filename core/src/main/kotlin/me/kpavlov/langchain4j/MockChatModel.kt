@@ -2,7 +2,7 @@ package me.kpavlov.langchain4j
 
 import dev.langchain4j.data.message.AiMessage.aiMessage
 import dev.langchain4j.data.message.UserMessage
-import dev.langchain4j.model.chat.ChatLanguageModel
+import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.chat.request.ChatRequest
 import dev.langchain4j.model.chat.response.ChatResponse
 import java.util.concurrent.ConcurrentHashMap
@@ -23,7 +23,7 @@ private val genericResponses =
  * LangChain4J ChatLanguageModel providing expected response to expected request.
  * Expected requests can be added dynamically. Follow wiremock interface
  */
-class MockChatLanguageModel : ChatLanguageModel {
+class MockChatLanguageModel : ChatModel {
     private val expectedResponses = ConcurrentHashMap<String, String>()
 
     /**

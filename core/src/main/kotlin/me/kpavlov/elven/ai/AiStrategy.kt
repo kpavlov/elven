@@ -57,9 +57,9 @@ class AiStrategy(
         val builder =
             AiServices
                 .builder(Assistant::class.java)
-                .streamingChatLanguageModel(streamingModel)
+                .streamingChatModel(streamingModel)
                 .moderationModel(moderationModel)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .systemMessageProvider {
                     systemPrompt
                 }.chatMemoryProvider(memory.chatMemoryProvider)
