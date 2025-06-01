@@ -2,7 +2,9 @@ package me.kpavlov.elven
 
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
+import me.kpavlov.elven.MapUtils.removeAnimationsFromTileset
 
 /**
  * Utility class for map-related operations.
@@ -78,5 +80,42 @@ object MapUtils {
 
         // Check if the tile ID is in the set of water tile IDs
         return null
+    }
+
+    fun removeAnimationsFromTileset(map: TiledMap) {
+        // Iterate through all tile layers in the map
+        for (layer in map.layers.getByType(TiledMapTileLayer::class.java)) {
+            val width = layer.width
+            val height = layer.height
+
+            // Check each cell in the layer
+            for (x in 0 until width) {
+                for (y in 0 until height) {
+                    val cell = layer.getCell(x, y)
+
+                    if (cell != null && cell.tile is AnimatedTiledMapTile) {
+                        val animatedTile = cell.tile as AnimatedTiledMapTile
+
+                        // Replace with first frame as static tile
+                        val staticTile = animatedTile.frameTiles[0]
+                        cell.tile = staticTile
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+internal class NoAnimationTmxMapLoader : TmxMapLoader() {
+    override fun load(fileName: String): TiledMap {
+        val map = super.load(fileName)
+        removeAnimationsFromMap(map)
+        return map
+    }
+
+    private fun removeAnimationsFromMap(map: TiledMap) {
+        // Use the method from the previous example
+        removeAnimationsFromTileset(map)
     }
 }

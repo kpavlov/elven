@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.maps.tiled.TiledMap
-import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
@@ -16,6 +15,7 @@ import ktx.scene2d.StageWidget
 import ktx.scene2d.actor
 import ktx.scene2d.actors
 import me.kpavlov.elven.GameConfig
+import me.kpavlov.elven.NoAnimationTmxMapLoader
 import me.kpavlov.elven.characters.AbstractCharacter
 import me.kpavlov.elven.characters.PlayerCharacter
 
@@ -36,7 +36,7 @@ class GameScreen(
     private lateinit var stage: Stage
     private val allCharacters = mutableListOf<AbstractCharacter>()
     private val playerCharacters = mutableListOf<PlayerCharacter>()
-    private val map: TiledMap = TmxMapLoader().load(GameConfig.MAP_FILE)
+    private val map: TiledMap = NoAnimationTmxMapLoader().load(GameConfig.MAP_FILE)
 
     init {
         // Calculate map dimensions
