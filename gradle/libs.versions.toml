@@ -2,7 +2,7 @@
 detenvKotlin = "6.5.1"
 gdx = "1.13.1"
 graalHelper = "2.0.1"
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kotlinx = "1.10.2"
 kotlinxDatetime = "0.7.0-0.6.x-compat"
 ktor = "3.3.2"
