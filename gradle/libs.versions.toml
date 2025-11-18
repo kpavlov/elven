@@ -1,6 +1,6 @@
 [versions]
 detenvKotlin = "6.5.1"
-gdx = "1.13.1"
+gdx = "1.14.0"
 graalHelper = "2.0.1"
 kotlin = "2.2.20"
 kotlinx = "1.10.2"
