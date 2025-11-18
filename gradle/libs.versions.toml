@@ -52,7 +52,7 @@ langchain4j-kotlin = { group = "dev.langchain4j", name = "langchain4j-kotlin" }
 langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version = "1.1.0" }
 
 [plugins]
-construo = { id = "io.github.fourlastor.construo", version = "1.7.1" }
+construo = { id = "io.github.fourlastor.construo", version = "2.1.0" }
 graalvm-native-plugin = { id = "org.graalvm.buildtools.native:org.graalvm.buildtools.native.gradle.plugin", version = "0.10.6" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
