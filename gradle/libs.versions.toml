@@ -7,7 +7,7 @@ kotlinx = "1.10.2"
 kotlinxDatetime = "0.7.0-0.6.x-compat"
 ktor = "3.3.2"
 ktx = "1.13.1-rc1"
-langchain4j = "1.0.0-beta4"
+langchain4j = "1.0.0-beta5"
 #langchain4jKotlin = "0.1.12"
 slf4j = "2.0.17"
 
@@ -49,7 +49,7 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "detenvKotlin" }
 langchain4j-bom = { group = "dev.langchain4j", name = "langchain4j-bom", version.ref = "langchain4j" }
 langchain4j-kotlin = { group = "dev.langchain4j", name = "langchain4j-kotlin" }
-langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version = "1.1.0" }
+langchain4j-openai = { group = "dev.langchain4j", name = "langchain4j-open-ai", version = "1.8.0" }
 
 [plugins]
 construo = { id = "io.github.fourlastor.construo", version = "1.7.1" }
